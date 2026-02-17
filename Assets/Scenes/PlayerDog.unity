@@ -251,7 +251,7 @@ MonoBehaviour:
   ySensitivity: 1500
   cameraTransform: {fileID: 52425940}
   speed: 10
-  jumpForce: 10
+  jumpForce: 5
 --- !u!54 &728350547
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -379,9 +379,9 @@ GameObject:
   - component: {fileID: 1143402071}
   - component: {fileID: 1143402070}
   - component: {fileID: 1143402069}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
