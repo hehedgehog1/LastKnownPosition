@@ -12,6 +12,8 @@ public class FirstPersonPlayer : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    private float maxCameraViewAngle = 10f;
+
 //For character movement
     public float speed;
     Vector3 movementDirection;
@@ -48,13 +50,11 @@ public class FirstPersonPlayer : MonoBehaviour
         
         float deltaY = Input.GetAxis("Mouse Y") * (-ySensitivity) * Time.deltaTime;
         xRotation -= deltaY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -maxCameraViewAngle, maxCameraViewAngle);
        
-        Vector3 newRotation =
-            cameraTransform.transform.rotation.eulerAngles +
-            new Vector3(deltaY, 0f, 0f); // euler angles turns quaternion into vector3
-        cameraTransform.rotation = Quaternion.Euler(newRotation);
         
+        cameraTransform.localRotation = Quaternion.Euler(xRotation,0f,0f);
+       // Vector3 newRotation = cameraTransform.transform.rotation.eulerAngles + new Vector3(deltaY, 0f, 0f); // euler angles turns quaternion into vector3
 
     }
 
