@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pinetree
-  m_Shader: {fileID: 10511, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: -6465566751694194690, guid: 0b92964611b8cef40ba78bc98629ef5a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,13 +16,18 @@ Material:
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2901
-  stringTagMap: {}
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseColorMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -47,7 +52,15 @@ Material:
         m_Texture: {fileID: 2800000, guid: a97ce08e101397549a7b7ee69e9952c9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal_Map:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -59,27 +72,102 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AO: 0
+    - _AlphaClip: 0
+    - _AlphaThreshold: 0.6
+    - _AlphaToMask: 0
+    - _AmbientTranslucency: 1
     - _BaseLight: 0.736
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BranchWindSpeed: 0.1
     - _BumpScale: 1
+    - _CastShadows: 1
+    - _Cull: 0
     - _Cutoff: 0.454
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _EnableBakedPhase: 0
+    - _EnableBakedWindMask: 0
+    - _EnableBranchWind: 0
+    - _EnableFlutter: 0
+    - _EnableProceduralPhase: 1
+    - _EnableTransmission: 0
+    - _FlipBackfaceNormals: 0
+    - _FlutterMask: 1
+    - _FlutterSpeed: 1
+    - _FlutterStrength: 0.1
+    - _FlutterTiling: 0.1
     - _Glossiness: 0.5
+    - _MainBendingPower: 1.2
+    - _MainBendingSpeed: 1
+    - _MainBendingStrength: 0.2
+    - _MainScaleXZ: 0.1
+    - _MaskVCChannel: 0
     - _Metallic: 0
     - _Mode: 0
     - _Occlusion: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _PhaseChannel: 0
+    - _PhaseScale: 1
+    - _ProceduralTiling: 0.05
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Rolling: 1
+    - _RollingDirectionalMask: 0.5
+    - _RollingDisplacement: 0.3
+    - _RollingProceduralStrength: 1
+    - _Smoothness: 1
     - _SquashAmount: 1
     - _SrcBlend: 1
+    - _Surface: 0
+    - _TVEFlutterMask: 0
+    - _Thickness: 1
     - _UVSec: 0
+    - _UseHemisphere: 0
+    - _VertexAO: 1
+    - _VertexAOChannel: 3
+    - _WindMask: 1
+    - _WindMaskFalloff: 0.75
+    - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HueVariation: {r: 0.9, g: 0.5, b: 0, a: 0.1019608}
+    - _MaskScale: {r: 1, g: 1, b: 1, a: 0}
+    - _Transmission: {r: 1, g: 8, b: 0.1, a: 0}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &1203221285348891940
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
