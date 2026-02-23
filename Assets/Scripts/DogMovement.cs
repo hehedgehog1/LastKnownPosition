@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ public class DogMovement : MonoBehaviour
     public Transform player;
     private float OffsetX = 2f;
     private float OffsetZ = 2f;
-    
+    private Vector3 velocity;
     
 //Dog Sniff
     private bool sniffMode = false;
@@ -30,34 +31,34 @@ public class DogMovement : MonoBehaviour
    public Transform playerCenter; 
    private float speed = .1f;
     
-
-
+   
  
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+  
+    private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
- 
-
+        navMeshAgent.updatePosition=false; 
     }
+
+
+   
+   
 
     // Update is called once per frame
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            sniffMode = true;
-            radiusSearchMode = false;
-            sniffDuration = 10f;
-            Debug.logger.Log("sniffMode");
-        }
-
-    }
+   
   
-  void FixedUpdate()
+  void Update()
   {
+      if (Input.GetKeyDown(KeyCode.L))
+      {
+          sniffMode = true;
+          radiusSearchMode = false;
+          sniffDuration = 10f;
+          Debug.unityLogger.Log("sniffMode");
+      }
+
       
       float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
 
@@ -81,13 +82,27 @@ public class DogMovement : MonoBehaviour
       {
           FollowPlayer();
       }
+      
+      if (Input.GetKeyDown(KeyCode.L))
+        {
+            sniffMode = true;
+            radiusSearchMode = false;
+            sniffDuration = 10f;
+            Debug.unityLogger.Log("sniffMode");
+        }
+
   }
 
-    void FollowPlayer()
+  void FollowPlayer()
     {
         Vector3 targetPosition = player.position + player.forward * OffsetZ + player.right * OffsetX;
+        
         navMeshAgent.SetDestination(targetPosition);
+        
+        transform.position = Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); 
     }
+    
+   
     void MoveToRadius()
     {
         Vector3 direction = (transform.position - player.position).normalized;
