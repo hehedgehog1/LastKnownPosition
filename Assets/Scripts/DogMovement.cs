@@ -19,10 +19,16 @@ public class DogMovement : MonoBehaviour
     private float sniffDuration = 10f;
     private float sniffRadius = 5f;
 
-    // Doge Searching in Radius
+    // Dog Searching in Radius
     private float sniffWeighting = 4f;
     private bool radiusSearchMode = false;
     private float radiusSearchDuration = 10f;
+    private float searchSpeed = 5f;
+
+    public Transform radiusPointA;
+    public Transform radiusPointB;
+   public Transform playerCenter; 
+   private float speed = .1f;
     
 
 
@@ -32,35 +38,50 @@ public class DogMovement : MonoBehaviour
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+ 
 
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-
             sniffMode = true;
+            radiusSearchMode = false;
             sniffDuration = 10f;
-            
+            Debug.logger.Log("sniffMode");
         }
 
-        if (sniffMode)
-        {
-            MoveToRadius();
-            sniffDuration -= Time.deltaTime;
-            if (sniffDuration <= 0)
-            {
-                sniffMode = false;
-            }
-        }
-        else
-        {
-            FollowPlayer();
-        }
-       
     }
+  
+  void FixedUpdate()
+  {
+      
+      float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
+
+      if (sniffMode)
+      {
+          MoveToRadius();
+
+          if (distanceFromPlayer >= sniffRadius)
+          {
+              sniffMode = false;
+              radiusSearchMode = true;
+              radiusSearchDuration = 10f;
+              
+          }
+      }
+      else if (radiusSearchMode)
+      {
+          RadiusSearch();
+      }
+      else
+      {
+          FollowPlayer();
+      }
+  }
 
     void FollowPlayer()
     {
@@ -70,14 +91,37 @@ public class DogMovement : MonoBehaviour
     void MoveToRadius()
     {
         Vector3 direction = (transform.position - player.position).normalized;
-        Vector3 targetPosition = transform.position + direction * sniffRadius;
+       Vector3 targetPosition = transform.position + direction * sniffRadius;
 
         navMeshAgent.SetDestination(targetPosition);
         
         
+        
+        
     }
-   /* void RadiusSeach()
-    {
-        radiusSearchMode = true;
-    }*/
+  
+
+  void RadiusSearch()
+  {
+      Vector3 radiusA = new Vector3(radiusPointA.position.x, 0f, radiusPointA.position.z) - new Vector3 (playerCenter.position.x,0f,playerCenter.position.z);
+      Vector3 radiusB = new Vector3(radiusPointB.position.x, 0f, radiusPointB.position.z) - new Vector3 (playerCenter.position.x,0f,playerCenter.position.z);
+        
+      float t = Mathf.PingPong(Time.time*speed, 1f) ;
+        
+      
+      transform.position = Vector3.Slerp(radiusA, radiusB, t);
+      transform.position += playerCenter.position;
+
+
+      navMeshAgent.SetDestination(transform.position);
+
+
+      radiusSearchDuration -= Time.deltaTime;
+      if (radiusSearchDuration <= 0f)
+      {
+          radiusSearchMode = false;
+      }
+  }
+
+
 }
