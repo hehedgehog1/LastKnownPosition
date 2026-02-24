@@ -9,3 +9,10 @@ Folder structure notes:
 Downloaded assets: 
 - https://assetstore.unity.com/packages/3d/environments/landscapes/terrain-sample-asset-pack-145808
 
+https://assetstore.unity.com/packages/2d/textures-materials/free-stylized-pbr-textures-pack-111778
+
+https://assetstore.unity.com/packages/3d/vegetation/foliage-pack-free-66155
+
+https://assetstore.unity.com/packages/vfx/shaders/lux-instant-vegetation-286644
+
+https://assetstore.unity.com/packages/3d/environments/landscapes/stylized-low-poly-rocks-271334
