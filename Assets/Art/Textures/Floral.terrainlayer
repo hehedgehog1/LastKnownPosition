@@ -7,7 +7,7 @@ TerrainLayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Floral
-  m_DiffuseTexture: {fileID: 2800000, guid: b0a596906ee3e5e4ea980c5acffa348e, type: 3}
+  m_DiffuseTexture: {fileID: 2800000, guid: fb5ee65f9ffb00943b87decbcc873605, type: 3}
   m_NormalMapTexture: {fileID: 0}
   m_MaskMapTexture: {fileID: 0}
   m_TileSize: {x: 6, y: 6}
