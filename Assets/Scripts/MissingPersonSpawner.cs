@@ -3,16 +3,20 @@ using UnityEngine.AI;
 
 public class MissingPersonSpawner : MonoBehaviour
 {
+    [Header("Prefabs")]
     public Terrain terrain;
     public GameObject missingPersonPrefab;
 
-    // Bounds for spawning
-    public float minX = -13f;
-    public float maxX = 562f;
-    public float minZ = 0f;
-    public float maxZ = 700f;
+    [Header("Spawn Bounds")]
+    public float minX = 153f;
+    public float maxX = 754f;
+    public float minZ = 156f;
+    public float maxZ = 768f;
 
+    [Header("Settings")]
     public int maxAttempts = 25;
+    public bool showSpawnRectangle = true;
+
 
     void Start()
     {
@@ -41,5 +45,28 @@ public class MissingPersonSpawner : MonoBehaviour
         }
 
         Debug.LogWarning("Failed to find valid NavMesh position.");
+    }
+
+    void OnDrawGizmos()
+    {
+        if (!showSpawnRectangle)
+            return;
+
+        Gizmos.color = Color.red;
+
+        Vector3 bottomLeft = new Vector3(minX, 0f, minZ);
+        Vector3 bottomRight = new Vector3(maxX, 0f, minZ);
+        Vector3 topLeft = new Vector3(minX, 0f, maxZ);
+        Vector3 topRight = new Vector3(maxX, 0f, maxZ);
+
+        // Lift slightly so it’s visible above terrain
+        float yOffset = 200f;
+
+        bottomLeft.y = bottomRight.y = topLeft.y = topRight.y = yOffset;
+
+        Gizmos.DrawLine(bottomLeft, bottomRight);
+        Gizmos.DrawLine(bottomRight, topRight);
+        Gizmos.DrawLine(topRight, topLeft);
+        Gizmos.DrawLine(topLeft, bottomLeft);
     }
 }

@@ -796,11 +796,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 1772245943}
   missingPersonPrefab: {fileID: 2292983342620152790, guid: d5dd4d8f0a60da840833c68bd1d446cf, type: 3}
-  minX: -13
-  maxX: 562
-  minZ: 0
-  maxZ: 700
+  minX: 153
+  maxX: 754
+  minZ: 156
+  maxZ: 768
   maxAttempts: 25
+  showSpawnRectangle: 0
 --- !u!4 &712090074
 Transform:
   m_ObjectHideFlags: 0
