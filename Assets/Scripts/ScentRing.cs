@@ -8,12 +8,14 @@ namespace LastKnownPosition
         public double Radius { get; }
         public Vector2 Center { get; }
         public double Weight { get; }
+        public double? WeightSplit { get; set; }
         public Vector2 ChildCenter { get; }
         
         public ScentRing()
         {
-            Center = new Vector2(5, 3);
+            Center = new Vector2(5, -3);
             Radius = 0.5;
+            Weight = 4;
         }
     }
 }
