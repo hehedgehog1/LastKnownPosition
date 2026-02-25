@@ -5,7 +5,7 @@ namespace LastKnownPosition
 {
     public class DogRing : IRing
     {
-        public double Radius { get; }
+        public float Radius { get; }
         public Vector2 Center { get; }
         public IList<Collision> Collisions { get; }
 
