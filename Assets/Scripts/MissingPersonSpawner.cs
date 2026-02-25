@@ -1,10 +1,18 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MissingPersonSpawner : MonoBehaviour
 {
-    public Terrain terrain;       
+    public Terrain terrain;
     public GameObject missingPersonPrefab;
-    public float spawnHeight = 50f;
+
+    // Bounds for spawning
+    public float minX = -13f;
+    public float maxX = 562f;
+    public float minZ = 0f;
+    public float maxZ = 700f;
+
+    public int maxAttempts = 25;
 
     void Start()
     {
@@ -13,21 +21,25 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void SpawnMissingPerson()
     {
-        float terrainWidth = terrain.terrainData.size.x;
-        float terrainLength = terrain.terrainData.size.z;
-
-        float randomX = Random.Range(0, terrainWidth);
-        float randomZ = Random.Range(0, terrainLength);
-
-        Vector3 rayStart = new Vector3(randomX, spawnHeight, randomZ);
-        if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, spawnHeight * 2))
+        for (int i = 0; i < maxAttempts; i++)
         {
-            Instantiate(missingPersonPrefab, hit.point, Quaternion.identity);
+            float randomX = Random.Range(minX, maxX);
+            float randomZ = Random.Range(minZ, maxZ);
+
+            // Get terrain height at the point generated
+            float terrainY = terrain.SampleHeight(new Vector3(randomX, 0f, randomZ));
+
+            Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
+
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(candidate, out hit, 2f, NavMesh.AllAreas))
+            {
+                Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
+                return;
+            }
         }
-        else
-        {
-            Debug.LogWarning("Failed to find terrain, retrying...");
-            SpawnMissingPerson();
-        }
+
+        Debug.LogWarning("Failed to find valid NavMesh position.");
     }
 }
