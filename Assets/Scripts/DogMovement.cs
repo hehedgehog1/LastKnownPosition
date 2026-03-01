@@ -101,7 +101,7 @@ public class DogMovement : MonoBehaviour
             while (true)
             {
                 Vector3 targetPosition = player.position + player.forward * OffsetZ + player.right * OffsetX; //follow player with slight offset so dog is visible
-
+               
                 if (Vector3.Distance(lastTarget, targetPosition) > 0.5f)
                 {
                     navMeshAgent.SetDestination(targetPosition);
