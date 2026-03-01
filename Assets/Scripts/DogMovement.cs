@@ -11,8 +11,12 @@ public class DogMovement : MonoBehaviour
    //Dog Movement with player 
     public Transform player;
     private float OffsetX = 2f; //dog distance from player in X when following
-    private float OffsetZ = 2f;//dog distance from player in Z when following
+    private float OffsetZ = 1.5f;//dog distance from player in Z when following
     private Vector3 velocity; 
+    
+    Vector3 lastTarget;
+    
+    
     
     // Dog Searching in Radius
     private float radiusSearchDuration = 20f; //time the dog will search for
@@ -57,13 +61,14 @@ public class DogMovement : MonoBehaviour
         
         
 
-        //SyncAgentToTransform();
+        SyncAgentToTransform();
 
     }
 
     void SyncAgentToTransform()
         {
-          //  transform.position = navMeshAgent.nextPosition;
+           
+            transform.position = navMeshAgent.nextPosition;
         }
 
         void UpdateBehaviour(DogState state)
@@ -97,12 +102,18 @@ public class DogMovement : MonoBehaviour
             {
                 Vector3 targetPosition = player.position + player.forward * OffsetZ + player.right * OffsetX; //follow player with slight offset so dog is visible
 
-
-                navMeshAgent.SetDestination(targetPosition);
-
-                yield return null;
+                if (Vector3.Distance(lastTarget, targetPosition) > 0.5f)
+                {
+                    navMeshAgent.SetDestination(targetPosition);
+                    lastTarget = targetPosition;
+                }
                 transform.position =
                     Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); // smoothes motion
+              
+
+                yield return null;
+                navMeshAgent.nextPosition = transform.position;
+                
             }
 
         }
