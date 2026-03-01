@@ -1,6 +1,5 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,132 +10,155 @@ public class DogMovement : MonoBehaviour
     
    //Dog Movement with player 
     public Transform player;
-    private float OffsetX = 2f;
-    private float OffsetZ = 2f;
-    private Vector3 velocity;
+    private float OffsetX = 2f; //dog distance from player in X when following
+    private float OffsetZ = 2f;//dog distance from player in Z when following
+    private Vector3 velocity; 
     
-//Dog Sniff
-    private bool sniffMode = false;
-    private float sniffDuration = 10f;
-    private float sniffRadius = 5f;
-
     // Dog Searching in Radius
-    private float sniffWeighting = 4f;
-    private bool radiusSearchMode = false;
-    private float radiusSearchDuration = 10f;
-    private float searchSpeed = 5f;
+    private float radiusSearchDuration = 20f; //time the dog will search for
+   
 
     public Transform radiusPointA;
     public Transform radiusPointB;
-   public Transform playerCenter; 
-   private float speed = .1f;
-    
+
+    public Coroutine CurrentBehaviour;
+    private float distanceToStartPoint = 1f;
    
- 
+   
+   public enum DogState
+   {
+       FollowPlayer,
+       GoToRadiusPoint,
+       Tracking
+   }
+
+   public DogState MyState; 
 
   
     private void Awake()
-    {
+    { 
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updatePosition=false; 
+      navMeshAgent.updatePosition=false; 
+      UpdateBehaviour(DogState.FollowPlayer);
+      
+     
+      navMeshAgent.updateRotation = true;
     }
 
 
-   
-   
+    void Update()
+    {
 
-    // Update is called once per frame
-
-   
-  
-  void Update()
-  {
-      if (Input.GetKeyDown(KeyCode.L))
-      {
-          sniffMode = true;
-          radiusSearchMode = false;
-          sniffDuration = 10f;
-          Debug.unityLogger.Log("sniffMode");
-      }
-
-      
-      float distanceFromPlayer = Vector3.Distance(player.position, transform.position);
-
-      if (sniffMode)
-      {
-          MoveToRadius();
-
-          if (distanceFromPlayer >= sniffRadius)
-          {
-              sniffMode = false;
-              radiusSearchMode = true;
-              radiusSearchDuration = 10f;
-              
-          }
-      }
-      else if (radiusSearchMode)
-      {
-          RadiusSearch();
-      }
-      else
-      {
-          FollowPlayer();
-      }
-      
-      if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            sniffMode = true;
-            radiusSearchMode = false;
-            sniffDuration = 10f;
-            Debug.unityLogger.Log("sniffMode");
+            Debug.unityLogger.Log("Tracking Mode Starts");
+            UpdateBehaviour(DogState.GoToRadiusPoint);
+        }
+        
+        
+
+        //SyncAgentToTransform();
+
+    }
+
+    void SyncAgentToTransform()
+        {
+          //  transform.position = navMeshAgent.nextPosition;
         }
 
-  }
+        void UpdateBehaviour(DogState state)
+        {
+            MyState = state;
 
-  void FollowPlayer()
-    {
-        Vector3 targetPosition = player.position + player.forward * OffsetZ + player.right * OffsetX;
+            if (CurrentBehaviour != null) // Stops coroutine of current behaviour when state changes
+            {
+                StopCoroutine(CurrentBehaviour);
+            }
+
+            switch (MyState)
+            {
+                case DogState.FollowPlayer:
+                    CurrentBehaviour = StartCoroutine(FollowPlayer()); // follow player state
+                    break;
+                case DogState.GoToRadiusPoint:
+                    CurrentBehaviour = StartCoroutine(MoveToPointA()); //start of tracking, dog moves to first point on search 
+                    break;
+                case DogState.Tracking:
+                    CurrentBehaviour = StartCoroutine(Tracking()); //tracking, dog moves between search points
+                    break;
+            }
+
+
+        }
+
+        IEnumerator FollowPlayer()
+        {
+            while (true)
+            {
+                Vector3 targetPosition = player.position + player.forward * OffsetZ + player.right * OffsetX; //follow player with slight offset so dog is visible
+
+
+                navMeshAgent.SetDestination(targetPosition);
+
+                yield return null;
+                transform.position =
+                    Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); // smoothes motion
+            }
+
+        }
+
+        IEnumerator MoveToPointA()
+        {
+
+            while (true)
+            {
+               Vector3 midPoint =  (radiusPointA.position + radiusPointB.position)/2f; //midpoint between two tracking points
+                navMeshAgent.SetDestination(midPoint);
+
+              if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
+                {
+                    UpdateBehaviour(DogState.Tracking);
+                }
+
+                yield return null;
+            }
+        }
         
-        navMeshAgent.SetDestination(targetPosition);
+        IEnumerator Tracking()
+        {
+            float elapsedTime = 0f;
+            float searchDuration = radiusSearchDuration;
+           navMeshAgent.updatePosition = true; 
         
-        transform.position = Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); 
+          
+           navMeshAgent.autoBraking = false; //stops dog slowing down as it reaches desitnation
+           Transform currentTarget = radiusPointA;
+            while (searchDuration > elapsedTime)
+            {
+                
+              
+              if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
+              {
+                  if (currentTarget == radiusPointA) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
+                      currentTarget = radiusPointB;
+                  else
+                      currentTarget = radiusPointA;
+                  navMeshAgent.SetDestination(currentTarget.position);
+              }
+              
+              yield return null;
+              elapsedTime += Time.deltaTime; 
+             
+
+            }
+            
+            if (searchDuration <= elapsedTime)
+            {
+                UpdateBehaviour(DogState.FollowPlayer);
+                navMeshAgent.autoBraking = true;
+            }
+           
+        }
+
     }
-    
-   
-    void MoveToRadius()
-    {
-        Vector3 direction = (transform.position - player.position).normalized;
-       Vector3 targetPosition = transform.position + direction * sniffRadius;
 
-        navMeshAgent.SetDestination(targetPosition);
-        
-        
-        
-        
-    }
-  
-
-  void RadiusSearch()
-  {
-      Vector3 radiusA = new Vector3(radiusPointA.position.x, 0f, radiusPointA.position.z) - new Vector3 (playerCenter.position.x,0f,playerCenter.position.z);
-      Vector3 radiusB = new Vector3(radiusPointB.position.x, 0f, radiusPointB.position.z) - new Vector3 (playerCenter.position.x,0f,playerCenter.position.z);
-        
-      float t = Mathf.PingPong(Time.time*speed, 1f) ;
-        
-      
-      transform.position = Vector3.Slerp(radiusA, radiusB, t);
-      transform.position += playerCenter.position;
-
-
-      navMeshAgent.SetDestination(transform.position);
-
-
-      radiusSearchDuration -= Time.deltaTime;
-      if (radiusSearchDuration <= 0f)
-      {
-          radiusSearchMode = false;
-      }
-  }
-
-
-}
