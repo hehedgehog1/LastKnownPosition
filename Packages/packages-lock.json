@@ -160,6 +160,13 @@
       "source": "builtin",
       "dependencies": {}
     },
+<<<<<<< HEAD
+    "com.unity.feature.development": {
+      "version": "1.0.2",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {
+=======
     "com.unity.feature.2d": {
       "version": "2.0.2",
       "depth": 0,
@@ -181,6 +188,7 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {
+>>>>>>> main
         "com.unity.ide.visualstudio": "2.0.26",
         "com.unity.ide.rider": "3.0.39",
         "com.unity.editorcoroutines": "1.0.1",
@@ -244,10 +252,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.probuilder": {
-      "version": "5.2.4",
+      "version": "6.0.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
+        "com.unity.shadergraph": "17.0.3",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.physics": "1.0.0",
         "com.unity.settings-manager": "1.0.3"
@@ -348,6 +357,8 @@
         "com.unity.settings-manager": "2.0.0"
       },
       "url": "https://packages.unity.com"
+<<<<<<< HEAD
+=======
     },
     "com.unity.textmeshpro": {
       "version": "5.0.0",
@@ -356,6 +367,7 @@
       "dependencies": {
         "com.unity.ugui": "2.0.0"
       }
+>>>>>>> main
     },
     "com.unity.timeline": {
       "version": "1.8.10",
