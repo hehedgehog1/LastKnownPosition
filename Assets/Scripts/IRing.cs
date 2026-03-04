@@ -6,7 +6,7 @@ namespace LastKnownPosition
 {
     public interface IRing
     {
-        public double Radius { get; }
+        public float Radius { get; }
         public Vector2 Center { get; }
     }
 }

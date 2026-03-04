@@ -5,17 +5,17 @@ namespace LastKnownPosition
 {
     public class ScentRing : MonoBehaviour, IRing
     {
-        public double Radius { get; }
+        public float Radius { get; }
         public Vector2 Center { get; }
-        public double Weight { get; }
-        public double? WeightSplit { get; set; }
+        public float Weight { get; }
+        public float? WeightedPercentage { get; set; }
         public Vector2 ChildCenter { get; }
         
         public ScentRing()
         {
             Center = new Vector2(5, -3);
-            Radius = 0.5;
-            Weight = 4;
+            Radius = 0.5f;
+            Weight = 2;
         }
     }
 }
