@@ -12,7 +12,7 @@ public class FirstPersonPlayer : MonoBehaviour
     float xRotation;
     float yRotation;
 
-    private float maxCameraViewAngle = 10f;
+    private float maxCameraViewAngle = 40f;
 
 //For character movement
     public float speed;
