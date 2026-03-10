@@ -34,12 +34,21 @@ public class FirstPersonPlayer : MonoBehaviour
 
     void Update()
     {
-        rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
+       // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
         
         CameraView();
         Jump();
         PlayerMovement();
 
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
+        if(isGrounded && movementDirection.magnitude < 0.1f)
+        {
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        }
     }
 
     public void CameraView()
