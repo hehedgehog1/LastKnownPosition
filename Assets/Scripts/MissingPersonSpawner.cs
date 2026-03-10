@@ -1,3 +1,4 @@
+using LastKnownPosition;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,12 +7,13 @@ public class MissingPersonSpawner : MonoBehaviour
     [Header("Prefabs")]
     public Terrain terrain;
     public GameObject missingPersonPrefab;
+    public GameObject scentRingPrefab;
 
     [Header("Spawn Bounds")]
-    public float minX = 153f;
-    public float maxX = 754f;
-    public float minZ = 156f;
-    public float maxZ = 768f;
+    public float minX = 130f;
+    public float maxX = 160f;
+    public float minZ = 600f;
+    public float maxZ = 620f;
 
     [Header("Settings")]
     public int maxAttempts = 25;
@@ -31,15 +33,18 @@ public class MissingPersonSpawner : MonoBehaviour
             float randomZ = Random.Range(minZ, maxZ);
 
             // Get terrain height at the point generated
-            float terrainY = terrain.SampleHeight(new Vector3(randomX, 0f, randomZ));
+            float terrainY = terrain.SampleHeight(new Vector3(152, 0f, 620));
 
-            Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
+            Vector3 candidate = new Vector3(152, terrainY, 620);
 
             NavMeshHit hit;
 
             if (NavMesh.SamplePosition(candidate, out hit, 2f, NavMesh.AllAreas))
             {
-                Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
+                var missingPerson = Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
+                
+                GenerateScentRings(missingPerson);
+                
                 return;
             }
         }
@@ -59,7 +64,7 @@ public class MissingPersonSpawner : MonoBehaviour
         Vector3 topLeft = new Vector3(minX, 0f, maxZ);
         Vector3 topRight = new Vector3(maxX, 0f, maxZ);
 
-        // Lift slightly so it’s visible above terrain
+        // Lift slightly so itï¿½s visible above terrain
         float yOffset = 200f;
 
         bottomLeft.y = bottomRight.y = topLeft.y = topRight.y = yOffset;
@@ -68,5 +73,22 @@ public class MissingPersonSpawner : MonoBehaviour
         Gizmos.DrawLine(bottomRight, topRight);
         Gizmos.DrawLine(topRight, topLeft);
         Gizmos.DrawLine(topLeft, bottomLeft);
+    }
+
+    void GenerateScentRings(GameObject missingPerson)
+    {
+        Vector3 position = new Vector3(missingPerson.transform.position.x, 3, missingPerson.transform.position.z);
+        
+        var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
+        scentRing.AddComponent<ScentRing>();
+        scentRing.AddComponent<CapsuleCollider>();
+
+        scentRing.transform.localScale = new Vector3(20, 0, 20);
+
+        var scentRingData = scentRing.GetComponent<ScentRing>();
+        scentRingData.Initialize(
+            new Vector2(missingPerson.transform.position.x, missingPerson.transform.position.z),
+            10,
+            1);
     }
 }

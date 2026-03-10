@@ -1,5 +1,6 @@
 
 using System.Collections;
+using LastKnownPosition;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,15 +16,16 @@ public class DogMovement : MonoBehaviour
     private Vector3 velocity; 
     
     Vector3 lastTarget;
-    
-    
+
+    public GameObject DogRing;
+    private DogRing _dogRing;
     
     // Dog Searching in Radius
     private float radiusSearchDuration = 20f; //time the dog will search for
    
 
-    public Transform radiusPointA;
-    public Transform radiusPointB;
+    private Transform radiusPointA;
+    private Transform radiusPointB;
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
@@ -49,6 +51,10 @@ public class DogMovement : MonoBehaviour
       navMeshAgent.updateRotation = true;
     }
 
+    void Start()
+    {
+        _dogRing = DogRing.GetComponent<DogRing>();
+    }
 
     void Update()
     {
@@ -56,13 +62,19 @@ public class DogMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.unityLogger.Log("Tracking Mode Starts");
+            TrackScent();
             UpdateBehaviour(DogState.GoToRadiusPoint);
         }
         
-        
-
         SyncAgentToTransform();
 
+    }
+
+    void TrackScent()
+    {
+        var (pointA, pointB) = _dogRing.TrackScent();
+        radiusPointA.transform.position = new Vector3(pointA.Value.x, 0, pointA.Value.y);
+        radiusPointB.transform.position = new Vector3(pointB.Value.x, 0, pointB.Value.y);
     }
 
     void SyncAgentToTransform()

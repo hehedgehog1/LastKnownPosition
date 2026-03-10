@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FirstPersonPlayer : MonoBehaviour
 {
+
+    public GameObject PlayerRing;
+    
 //For Viewpoint
     public float xSensitivity;
     public float ySensitivity;
@@ -35,6 +38,10 @@ public class FirstPersonPlayer : MonoBehaviour
     void Update()
     {
        // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
+        
+        var pos = new Vector3(transform.position.x, 3, transform.position.z);
+        
+        PlayerRing.transform.SetPositionAndRotation(pos, rb.transform.rotation);
         
         CameraView();
         Jump();

@@ -9,7 +9,7 @@ using Random = System.Random;
 
 namespace LastKnownPosition
 {
-    public class PlayerRing : MonoBehaviour, IRing
+    public class DogRing : MonoBehaviour, IRing
     {
         private IList<ScentRing> _collidingRings = new List<ScentRing>();
         
@@ -18,13 +18,13 @@ namespace LastKnownPosition
         public float Radius { get; } = 1;
         public Vector2 Center { get; }
         
-        public GameObject LeftLine;
-        private LineRenderer _leftLineRenderer;
+        // public GameObject LeftLine;
+        // private LineRenderer _leftLineRenderer;
+        //
+        // public GameObject RightLine;
+        // private LineRenderer _rightLineRenderer;
 
-        public GameObject RightLine;
-        private LineRenderer _rightLineRenderer;
-
-        public PlayerRing()
+        public DogRing()
         {
             Center = new Vector2(0, 0);
         }
@@ -33,33 +33,39 @@ namespace LastKnownPosition
         void Start()
         {
             _trackerManager = new TrackerManager();
-            _leftLineRenderer = LeftLine.GetComponent<LineRenderer>();
-            _rightLineRenderer = RightLine.GetComponent<LineRenderer>();
+            // _leftLineRenderer = LeftLine.GetComponent<LineRenderer>();
+            // _rightLineRenderer = RightLine.GetComponent<LineRenderer>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                TrackScent();
-            }
+            // if (Input.GetKeyDown(KeyCode.T))
+            // {
+            //     TrackScent();
+            // }
         } 
-        private void TrackScent()
+        public (Vector2?, Vector2?) TrackScent()
         {
             if (_collidingRings.Count == 0)
             {
-                return;
+                return (null, null);
             }
 
             var scentRing = _collidingRings.Last();
             
             var (position1, position2) = _trackerManager.TrackScent(this, scentRing);
+            return (position1, position2);
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             var scentRing = collision.gameObject.GetComponent<ScentRing>();
+            if (scentRing == null)
+            {
+                return;
+            }
+            
             if (!_collidingRings.Contains(scentRing))
             {
                 _collidingRings.Add(scentRing);
@@ -69,6 +75,11 @@ namespace LastKnownPosition
         private void OnCollisionExit(Collision collision)
         {
             var scentRing = collision.gameObject.GetComponent<ScentRing>();
+            if (scentRing == null)
+            {
+                return;
+            }
+            
             if (_collidingRings.Contains(scentRing))
             {
                 _collidingRings.Remove(scentRing);
