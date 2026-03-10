@@ -39,7 +39,7 @@ public class FirstPersonPlayer : MonoBehaviour
     {
        // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
         
-        var pos = new Vector3(transform.position.x, 3, transform.position.z);
+        var pos = new Vector3(transform.position.x, -15, transform.position.z);
         
         PlayerRing.transform.SetPositionAndRotation(pos, rb.transform.rotation);
         

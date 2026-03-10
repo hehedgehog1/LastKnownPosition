@@ -54,6 +54,7 @@ public class DogMovement : MonoBehaviour
     void Start()
     {
         _dogRing = DogRing.GetComponent<DogRing>();
+        radiusPointA = new Transform();
     }
 
     void Update()

@@ -77,7 +77,7 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void GenerateScentRings(GameObject missingPerson)
     {
-        Vector3 position = new Vector3(missingPerson.transform.position.x, 3, missingPerson.transform.position.z);
+        Vector3 position = new Vector3(missingPerson.transform.position.x, -15, missingPerson.transform.position.z);
         
         var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
         scentRing.AddComponent<ScentRing>();
