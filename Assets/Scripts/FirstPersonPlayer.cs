@@ -12,7 +12,7 @@ public class FirstPersonPlayer : MonoBehaviour
     float xRotation;
     float yRotation;
 
-    private float maxCameraViewAngle = 10f;
+    private float maxCameraViewAngle = 40f;
 
 //For character movement
     public float speed;
@@ -34,12 +34,21 @@ public class FirstPersonPlayer : MonoBehaviour
 
     void Update()
     {
-        rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
+       // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
         
         CameraView();
         Jump();
         PlayerMovement();
 
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
+        if(isGrounded && movementDirection.magnitude < 0.1f)
+        {
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        }
     }
 
     public void CameraView()
@@ -54,7 +63,7 @@ public class FirstPersonPlayer : MonoBehaviour
        
         
         cameraTransform.localRotation = Quaternion.Euler(xRotation,0f,0f);
-       // Vector3 newRotation = cameraTransform.transform.rotation.eulerAngles + new Vector3(deltaY, 0f, 0f); // euler angles turns quaternion into vector3
+       
 
     }
 
