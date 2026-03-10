@@ -63,7 +63,7 @@ public class FirstPersonPlayer : MonoBehaviour
        
         
         cameraTransform.localRotation = Quaternion.Euler(xRotation,0f,0f);
-       // Vector3 newRotation = cameraTransform.transform.rotation.eulerAngles + new Vector3(deltaY, 0f, 0f); // euler angles turns quaternion into vector3
+       
 
     }
 

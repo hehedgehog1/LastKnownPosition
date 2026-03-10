@@ -1640,7 +1640,7 @@ MonoBehaviour:
   xSensitivity: 1500
   ySensitivity: 1500
   cameraTransform: {fileID: 385088563}
-  speed: 10
+  speed: 6
   jumpForce: 5
 --- !u!54 &746635736
 Rigidbody:
