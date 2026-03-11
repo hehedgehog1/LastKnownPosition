@@ -56,8 +56,8 @@ public class FirstPersonPlayer : MonoBehaviour
         float deltaX = Input.GetAxis("Mouse X") * xSensitivity * Time.deltaTime;
         yRotation += deltaX;
         transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
-        
-        float deltaY = Input.GetAxis("Mouse Y") * (-ySensitivity) * Time.deltaTime;
+
+        float deltaY = Input.GetAxis("Mouse Y") * ySensitivity * Time.deltaTime;
         xRotation -= deltaY;
         xRotation = Mathf.Clamp(xRotation, -maxCameraViewAngle, maxCameraViewAngle);
        
