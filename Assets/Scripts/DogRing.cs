@@ -42,7 +42,7 @@ namespace LastKnownPosition
         // Update is called once per frame
         void Update()
         {
-            var pos = new Vector3(Player.position.x, -15, Player.position.z);
+            var pos = new Vector3(Player.position.x, Constants.RingOffset, Player.position.z);
         
             transform.SetPositionAndRotation(pos, Quaternion.identity);
         } 

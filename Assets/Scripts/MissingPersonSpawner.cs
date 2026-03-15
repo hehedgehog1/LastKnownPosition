@@ -87,7 +87,7 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void GenerateScentRing(float x, float z, float radius, int weight)
     {
-        Vector3 position = new Vector3(x, -15, z);
+        Vector3 position = new Vector3(x, Constants.RingOffset, z);
         
         var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
         scentRing.AddComponent<ScentRing>();
