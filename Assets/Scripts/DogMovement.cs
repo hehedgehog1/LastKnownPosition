@@ -63,7 +63,11 @@ public class DogMovement : MonoBehaviour
         {
             Debug.unityLogger.Log("Tracking Mode Starts");
             TrackScent();
-            UpdateBehaviour(DogState.GoToRadiusPoint);
+
+            if (_pointA != Vector3.zero)
+            {
+                UpdateBehaviour(DogState.GoToRadiusPoint);
+            }
         }
         
         SyncAgentToTransform();
@@ -73,6 +77,12 @@ public class DogMovement : MonoBehaviour
     void TrackScent()
     {
         var scentRange = _dogRing.TrackScent();
+        if (scentRange is null)
+        {
+            _pointA = Vector3.zero;
+            _pointB = Vector3.zero;
+            return;
+        }
         
         float radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointA.x, 0f, player.position.z + scentRange.PointA.y));
         _pointA = new Vector3(player.position.x + scentRange.PointA.x, radiusPointATerrainHeight, player.position.z + scentRange.PointA.y);

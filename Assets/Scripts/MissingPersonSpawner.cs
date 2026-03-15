@@ -10,10 +10,10 @@ public class MissingPersonSpawner : MonoBehaviour
     public GameObject scentRingPrefab;
 
     [Header("Spawn Bounds")]
-    public float minX = 130f;
-    public float maxX = 160f;
-    public float minZ = 600f;
-    public float maxZ = 620f;
+    public float minX = 153f;
+    public float maxX = 754f;
+    public float minZ = 156f;
+    public float maxZ = 768f;
 
     [Header("Settings")]
     public int maxAttempts = 25;
@@ -33,9 +33,9 @@ public class MissingPersonSpawner : MonoBehaviour
             float randomZ = Random.Range(minZ, maxZ);
 
             // Get terrain height at the point generated
-            float terrainY = terrain.SampleHeight(new Vector3(152, 0f, 620));
+            float terrainY = terrain.SampleHeight(new Vector3(randomX, 0f, randomZ));
 
-            Vector3 candidate = new Vector3(152, terrainY, 620);
+            Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
 
             NavMeshHit hit;
 
@@ -77,18 +77,28 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void GenerateScentRings(GameObject missingPerson)
     {
-        Vector3 position = new Vector3(missingPerson.transform.position.x, -15, missingPerson.transform.position.z);
+        //TODO: Change this into being generated through JSON file or some other configuration, this is just hardcoded initially
+        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 50, 1);
+        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 80, 2);
+        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 10, 3);
+        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 200, 4);
+        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 400, 5);
+    }
+
+    void GenerateScentRing(float x, float z, float radius, int weight)
+    {
+        Vector3 position = new Vector3(x, -15, z);
         
         var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
         scentRing.AddComponent<ScentRing>();
         scentRing.AddComponent<CapsuleCollider>();
 
-        scentRing.transform.localScale = new Vector3(20, 0, 20);
+        scentRing.transform.localScale = new Vector3(radius*2, 0, radius*2);
 
         var scentRingData = scentRing.GetComponent<ScentRing>();
         scentRingData.Initialize(
-            new Vector2(missingPerson.transform.position.x, missingPerson.transform.position.z),
-            10,
-            3);
+            new Vector2(x, z),
+            radius,
+            weight);
     }
 }

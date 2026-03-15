@@ -14,6 +14,8 @@ namespace LastKnownPosition
         private IList<ScentRing> _collidingRings = new List<ScentRing>();
         
         private TrackerManager _trackerManager;
+
+        public Transform Player;
         
         public float Radius { get; } = 7.5f;
         public Vector2 Center { get; }
@@ -40,10 +42,9 @@ namespace LastKnownPosition
         // Update is called once per frame
         void Update()
         {
-            // if (Input.GetKeyDown(KeyCode.T))
-            // {
-            //     TrackScent();
-            // }
+            var pos = new Vector3(Player.position.x, -15, Player.position.z);
+        
+            transform.SetPositionAndRotation(pos, Quaternion.identity);
         } 
         public ScentRange TrackScent()
         {
