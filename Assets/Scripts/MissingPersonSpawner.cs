@@ -89,6 +89,6 @@ public class MissingPersonSpawner : MonoBehaviour
         scentRingData.Initialize(
             new Vector2(missingPerson.transform.position.x, missingPerson.transform.position.z),
             10,
-            1);
+            3);
     }
 }

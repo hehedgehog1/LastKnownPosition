@@ -15,7 +15,7 @@ namespace LastKnownPosition
         
         private TrackerManager _trackerManager;
         
-        public float Radius { get; } = 1;
+        public float Radius { get; } = 7.5f;
         public Vector2 Center { get; }
         
         // public GameObject LeftLine;
@@ -45,17 +45,17 @@ namespace LastKnownPosition
             //     TrackScent();
             // }
         } 
-        public (Vector2?, Vector2?) TrackScent()
+        public ScentRange TrackScent()
         {
             if (_collidingRings.Count == 0)
             {
-                return (null, null);
+                return null;
             }
 
             var scentRing = _collidingRings.Last();
             
-            var (position1, position2) = _trackerManager.TrackScent(this, scentRing);
-            return (position1, position2);
+            var scentRange = _trackerManager.TrackScent(this, scentRing);
+            return scentRange;
         }
 
         private void OnCollisionEnter(Collision collision)

@@ -8,6 +8,7 @@ public class DogMovement : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Vector3 dogPosition;
+    public Terrain Terrain; 
     
    //Dog Movement with player 
     public Transform player;
@@ -22,10 +23,9 @@ public class DogMovement : MonoBehaviour
     
     // Dog Searching in Radius
     private float radiusSearchDuration = 20f; //time the dog will search for
-   
-
-    private Transform radiusPointA;
-    private Transform radiusPointB;
+    
+    private Vector3 _pointA;
+    private Vector3 _pointB;
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
@@ -54,7 +54,6 @@ public class DogMovement : MonoBehaviour
     void Start()
     {
         _dogRing = DogRing.GetComponent<DogRing>();
-        radiusPointA = new Transform();
     }
 
     void Update()
@@ -73,9 +72,13 @@ public class DogMovement : MonoBehaviour
 
     void TrackScent()
     {
-        var (pointA, pointB) = _dogRing.TrackScent();
-        radiusPointA.transform.position = new Vector3(pointA.Value.x, 0, pointA.Value.y);
-        radiusPointB.transform.position = new Vector3(pointB.Value.x, 0, pointB.Value.y);
+        var scentRange = _dogRing.TrackScent();
+        
+        float radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointA.x, 0f, player.position.z + scentRange.PointA.y));
+        _pointA = new Vector3(player.position.x + scentRange.PointA.x, radiusPointATerrainHeight, player.position.z + scentRange.PointA.y);
+        
+        float radiusPointBTerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointB.x, 0f, player.position.z + scentRange.PointB.y));
+        _pointB = new Vector3(player.position.x + scentRange.PointB.x, radiusPointBTerrainHeight, player.position.z + scentRange.PointB.y);
     }
 
     void SyncAgentToTransform()
@@ -136,7 +139,7 @@ public class DogMovement : MonoBehaviour
 
             while (true)
             {
-               Vector3 midPoint =  (radiusPointA.position + radiusPointB.position)/2f; //midpoint between two tracking points
+               Vector3 midPoint =  (_pointA + _pointB)/2f; //midpoint between two tracking points
                 navMeshAgent.SetDestination(midPoint);
 
               if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
@@ -156,18 +159,18 @@ public class DogMovement : MonoBehaviour
         
           
            navMeshAgent.autoBraking = false; //stops dog slowing down as it reaches desitnation
-           Transform currentTarget = radiusPointA;
+           Vector3 currentTarget = _pointA;
             while (searchDuration > elapsedTime)
             {
                 
               
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
-                  if (currentTarget == radiusPointA) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
-                      currentTarget = radiusPointB;
+                  if (currentTarget == _pointA) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
+                      currentTarget = _pointB;
                   else
-                      currentTarget = radiusPointA;
-                  navMeshAgent.SetDestination(currentTarget.position);
+                      currentTarget = _pointA;
+                  navMeshAgent.SetDestination(currentTarget);
               }
               
               yield return null;
