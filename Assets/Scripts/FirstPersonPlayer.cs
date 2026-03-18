@@ -35,7 +35,7 @@ public class FirstPersonPlayer : MonoBehaviour
     void Update()
     {
        // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
-        
+       
         CameraView();
         Jump();
         PlayerMovement();

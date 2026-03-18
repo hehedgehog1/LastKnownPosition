@@ -7,9 +7,9 @@ namespace LastKnownPosition
 {
     public class TrackerManager
     {
-        public (Vector2, Vector2) TrackScent(PlayerRing playerRing, ScentRing scentRing)
+        public ScentRange TrackScent(DogRing dogRing, ScentRing scentRing)
         {
-            var centerRadianAngle = GetRadianAngleOfCenterLine(playerRing, scentRing);
+            var centerRadianAngle = GetRadianAngleOfCenterLine(dogRing, scentRing);
             var centerDegreeAngle = GetRadiansToDegrees(centerRadianAngle);
             
             var weightedRange = GetWeightedRange(scentRing.Weight);
@@ -17,23 +17,31 @@ namespace LastKnownPosition
             scentRing.WeightedPercentage = weightedPercentage;
             
             var point1Angle = centerDegreeAngle - weightedRange * weightedPercentage;
-            var point1 = GetPointOnCircumference(point1Angle, playerRing.Radius);
+            if (point1Angle < 0f)
+            {
+                point1Angle = 360 + point1Angle;
+            }
+            var point1 = GetPointOnCircumference(point1Angle, dogRing.Radius);
             
             var point2Angle = centerDegreeAngle + weightedRange * (1 - weightedPercentage);
-            var point2 = GetPointOnCircumference(point2Angle, playerRing.Radius);
+            if (point2Angle > 360)
+            {
+                point2Angle = point2Angle - 360;
+            }
+            var point2 = GetPointOnCircumference(point2Angle, dogRing.Radius);
             
-            return (point1, point2);
+            return new ScentRange(point1, point2);
         }
 
-        private float GetRadianAngleOfCenterLine(PlayerRing playerRing, ScentRing scentRing)
+        private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
         {
             var lengthC = GetLengthBetweenPoints(
-                playerRing.Center, 
+                dogRing.Center, 
                 scentRing.Center);
             var lengthA = GetLengthBetweenPoints(
-                new Vector2(playerRing.Center.x, playerRing.Center.y + playerRing.Radius), 
+                new Vector2(dogRing.Center.x, dogRing.Center.y + dogRing.Radius), 
                 scentRing.Center);
-            var lengthB = playerRing.Radius;
+            var lengthB = dogRing.Radius;
             
             var radianAngle = GetCosineRule(lengthA, lengthB, lengthC);
             return radianAngle;
