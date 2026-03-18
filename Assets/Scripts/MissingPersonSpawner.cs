@@ -90,8 +90,6 @@ public class MissingPersonSpawner : MonoBehaviour
         Vector3 position = new Vector3(x, Constants.RingOffset, z);
         
         var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
-        scentRing.AddComponent<ScentRing>();
-        scentRing.AddComponent<CapsuleCollider>();
 
         scentRing.transform.localScale = new Vector3(radius*2, 0, radius*2);
 
