@@ -1,0 +1,9 @@
+{
+    "name": "LKP_TESTS",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ]
+}
