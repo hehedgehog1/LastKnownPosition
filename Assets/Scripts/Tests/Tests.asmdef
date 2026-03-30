@@ -1,5 +1,5 @@
 {
-    "name": "LKP_TESTS",
+    "name": "Tests",
     "optionalUnityReferences": [
         "TestAssemblies"
     ],
