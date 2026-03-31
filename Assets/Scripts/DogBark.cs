@@ -1,4 +1,5 @@
-using UnityEngine; 
+using UnityEngine;
+using Unity.Mathematics;
 public class DogBarkController : MonoBehaviour 
 { 
     public Transform pointA; 

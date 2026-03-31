@@ -1,14 +1,14 @@
 using NUnit.Framework;
 using UnityEngine;
 
-public class DogBarkEditModeTests
+public class DogBarkTests
 {
     [Test]
     public void Dog_Barks_When_Between_Points()
     {
-        // Create the dog object and component
+        // Create GameObject with the DogBark component
         var dogObj = new GameObject("Dog");
-        var dog = dogObj.AddComponent<DogBarkController>();
+        var dog = dogObj.AddComponent<DogBark>();
 
         // Create pointA and pointB
         var pointA = new GameObject("A").transform;
@@ -30,9 +30,8 @@ public class DogBarkEditModeTests
         // Ensure sound is not already playing
         audio.Stop();
 
-        // Manually trigger the bark check through reflection or a public method
-        var updateMethod = typeof(DogBarkController).GetMethod("Update", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        updateMethod?.Invoke(dog, null);
+        // Manually call Update()
+        dog.Update();
 
         // Assert that Play() was triggered
         Assert.IsTrue(audio.isPlaying);
