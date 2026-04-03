@@ -54,23 +54,10 @@ public class MissingPersonSpawner : MonoBehaviour
         var terrainY = terrain.GetTerrainHeightAtPosition(location.X, location.Z);
         var locationVector = new Vector3(location.X, terrainY, location.Z);
         Instantiate(missingPersonPrefab, locationVector, Quaternion.identity);
-        foreach (var ring in missingPerson.Rings)
-        {
-            if (ring.Location is null)
-            {
-                ring.Location = missingPerson.Location;
-            }
-            
-            GenerateScentRing(
-                ring.Location.X, 
-                ring.Location.Z, 
-                ring.Radius, 
-                ring.Weight);
-        }
 
         for (int i = 0; i < missingPerson.Rings.Count; i++)
         {
-            if (missingPerson.Rings[i].Location is null)
+            if (missingPerson.Rings[i].Location.X is 0 && missingPerson.Rings[i].Location.Z is 0)
             {
                 missingPerson.Rings[i].Location = missingPerson.Location;
             }
