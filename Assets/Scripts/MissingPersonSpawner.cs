@@ -1,4 +1,6 @@
+using Helpers;
 using LastKnownPosition;
+using Models;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,14 +20,8 @@ public class MissingPersonSpawner : MonoBehaviour
     [Header("Settings")]
     public int maxAttempts = 25;
     public bool showSpawnRectangle = true;
-
-
-    void Start()
-    {
-        SpawnMissingPerson();
-    }
-
-    void SpawnMissingPerson()
+    
+    public void SpawnMissingPerson()
     {
         for (int i = 0; i < maxAttempts; i++)
         {
@@ -33,7 +29,7 @@ public class MissingPersonSpawner : MonoBehaviour
             float randomZ = Random.Range(minZ, maxZ);
 
             // Get terrain height at the point generated
-            float terrainY = terrain.SampleHeight(new Vector3(randomX, 0f, randomZ));
+            float terrainY = terrain.GetTerrainHeightAtPosition(randomX, randomZ);
 
             Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
 
@@ -50,6 +46,41 @@ public class MissingPersonSpawner : MonoBehaviour
         }
 
         Debug.LogWarning("Failed to find valid NavMesh position.");
+    }
+
+    public void SpawnMissingPerson(MissingPerson missingPerson)
+    {
+        var location = missingPerson.Location;
+        var terrainY = terrain.GetTerrainHeightAtPosition(location.X, location.Z);
+        var locationVector = new Vector3(location.X, terrainY, location.Z);
+        Instantiate(missingPersonPrefab, locationVector, Quaternion.identity);
+        foreach (var ring in missingPerson.Rings)
+        {
+            if (ring.Location is null)
+            {
+                ring.Location = missingPerson.Location;
+            }
+            
+            GenerateScentRing(
+                ring.Location.X, 
+                ring.Location.Z, 
+                ring.Radius, 
+                ring.Weight);
+        }
+
+        for (int i = 0; i < missingPerson.Rings.Count; i++)
+        {
+            if (missingPerson.Rings[i].Location is null)
+            {
+                missingPerson.Rings[i].Location = missingPerson.Location;
+            }
+            
+            GenerateScentRing(
+                missingPerson.Rings[i].Location.X, 
+                missingPerson.Rings[i].Location.Z, 
+                missingPerson.Rings[i].Radius, 
+                missingPerson.Rings[i].Weight);
+        }
     }
 
     void OnDrawGizmos()
