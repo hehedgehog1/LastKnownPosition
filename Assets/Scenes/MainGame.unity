@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eab3f5e76bc82d498c19d20a3dc5890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  levelName: Level1
+  levelName: EasyTracking
   missingPersonSpawnerGameObject: {fileID: 712090072}
 --- !u!4 &197840491
 Transform:
