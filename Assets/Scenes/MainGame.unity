@@ -413,6 +413,7 @@ MonoBehaviour:
   Terrain: {fileID: 1772245943}
   player: {fileID: 746635740}
   DogRing: {fileID: 1438160999}
+  maxDistanceFromPlayer: 20
   MyState: 0
 --- !u!195 &182710832
 NavMeshAgent:

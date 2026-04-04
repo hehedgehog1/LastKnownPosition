@@ -31,7 +31,8 @@ public class DogMovement : MonoBehaviour
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
-   
+
+    [SerializeField] private float maxDistanceFromPlayer;
    
    public enum DogState
    {
@@ -71,9 +72,16 @@ public class DogMovement : MonoBehaviour
                 UpdateBehaviour(DogState.GoToRadiusPoint);
             }
         }
+
+        if (IsTooFarFromPlayer())
+        {
+            UpdateBehaviour(DogState.FollowPlayer);
+        }
         
         SyncAgentToTransform();
     }
+
+    private bool IsTooFarFromPlayer() => Vector3.Distance(player.position, transform.position) > maxDistanceFromPlayer;
 
     void TrackScent()
     {
