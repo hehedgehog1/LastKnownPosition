@@ -1737,7 +1737,7 @@ MonoBehaviour:
   xSensitivity: 1500
   ySensitivity: 1500
   cameraTransform: {fileID: 385088563}
-  speed: 6
+  speed: 1
   jumpForce: 5
 --- !u!54 &746635736
 Rigidbody:
@@ -1856,7 +1856,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.21228012, z: -0, w: 0.9772089}
   m_LocalPosition: {x: 145.97, y: 3.12, z: 610.73}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 385088563}
@@ -3557,7 +3557,7 @@ GameObject:
   - component: {fileID: 1772245942}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
