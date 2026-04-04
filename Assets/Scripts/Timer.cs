@@ -5,11 +5,13 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
-    private float _elapsedTime;
+    [SerializeField] private float remainingTime;
 
     private void Update()
     {
-        _elapsedTime += Time.deltaTime;
-        timerText.text = _elapsedTime.ToString(CultureInfo.InvariantCulture);
+        remainingTime -= Time.deltaTime;
+        var minutes = Mathf.FloorToInt(remainingTime / 60);
+        var seconds = Mathf.FloorToInt(remainingTime % 60);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
 }
