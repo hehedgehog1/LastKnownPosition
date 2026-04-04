@@ -25,7 +25,7 @@ public class DogMovement : MonoBehaviour
     private DogRing _dogRing;
     
     // Dog Searching in Radius
-    private float radiusSearchDuration = 20f; //time the dog will search for
+    private float radiusSearchDuration = 10f; //time the dog will search for
     
     private IList<Vector3> _points;
 
