@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using LastKnownPosition;
 using UnityEngine;
 using UnityEngine.AI;
@@ -94,7 +95,11 @@ public class DogMovement : MonoBehaviour
 
     private Vector3 ConvertPointToVector3(Vector2 point)
     {
-        var radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + point.x, 0f, player.position.z + point.y));
+        var radiusPointATerrainHeight =
+            Terrain.GetTerrainHeightAtPosition(
+                player.position.x + point.x, 
+                player.position.z + point.y);
+        
         return new Vector3(player.position.x + point.x, radiusPointATerrainHeight, player.position.z + point.y);
     }
 
