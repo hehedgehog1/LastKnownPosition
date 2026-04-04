@@ -88,10 +88,21 @@ public class DogMovement : MonoBehaviour
             return;
         }
         
+        SetPoints(scentRange.Points);
+        
         _pointA = ConvertPointToVector3(scentRange.PointA);
         _pointB = ConvertPointToVector3(scentRange.PointB);
     }
 
+    private void SetPoints(IList<Vector2> vector2Points)
+    {
+        _points = new List<Vector3>();
+
+        foreach (var vector2Point in vector2Points)
+        {
+            _points.Add(ConvertPointToVector3(vector2Point));
+        }
+    }
 
     private Vector3 ConvertPointToVector3(Vector2 point)
     {
