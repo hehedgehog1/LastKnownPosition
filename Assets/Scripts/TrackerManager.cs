@@ -25,7 +25,8 @@ namespace LastKnownPosition
             scentRange.Points.Add(pointA);
             
             
-            
+            //TODO: Refactor this into own method
+            //TODO: Strip out Static A B points
 
             var innerSegmentAngle = GetInnerSegmentAngle(weightedRange);
             var innerSegmentAngleA = (pointAAngle + innerSegmentAngle).Standardise();
@@ -47,6 +48,7 @@ namespace LastKnownPosition
 
         private float GetInnerSegmentAngle(float weightedRange)
         {
+            //TODO: this can be simplified
             var fullWeightedRange = weightedRange;
 
             var segmentAngle = fullWeightedRange / 3;
