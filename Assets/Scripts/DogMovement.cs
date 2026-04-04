@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Helpers;
 using LastKnownPosition;
 using UnityEngine;
@@ -68,7 +69,7 @@ public class DogMovement : MonoBehaviour
             Debug.unityLogger.Log("Tracking Mode Starts");
             TrackScent();
 
-            if (_pointA != Vector3.zero)
+            if (_points is not null && _points.First() != Vector3.zero)
             {
                 UpdateBehaviour(DogState.GoToRadiusPoint);
             }
@@ -83,6 +84,8 @@ public class DogMovement : MonoBehaviour
         var scentRange = _dogRing.TrackScent();
         if (scentRange is null)
         {
+            
+            //TODO: Delete
             _pointA = Vector3.zero;
             _pointB = Vector3.zero;
             return;
@@ -90,6 +93,8 @@ public class DogMovement : MonoBehaviour
         
         SetPoints(scentRange.Points);
         
+        
+        //TODO: Delete
         _pointA = ConvertPointToVector3(scentRange.PointA);
         _pointB = ConvertPointToVector3(scentRange.PointB);
     }
@@ -172,7 +177,7 @@ public class DogMovement : MonoBehaviour
 
             while (true)
             {
-               Vector3 midPoint =  (_pointA + _pointB)/2f; //midpoint between two tracking points
+               Vector3 midPoint =  (_points.First() + _points.Last())/2f; //midpoint between two tracking points
                 navMeshAgent.SetDestination(midPoint);
 
               if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
@@ -192,17 +197,17 @@ public class DogMovement : MonoBehaviour
         
           
            navMeshAgent.autoBraking = false; //stops dog slowing down as it reaches desitnation
-           Vector3 currentTarget = _pointA;
+           Vector3 currentTarget = _points.First();
             while (searchDuration > elapsedTime)
             {
                 
               
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
-                  if (currentTarget == _pointA) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
-                      currentTarget = _pointB;
+                  if (currentTarget == _points.First()) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
+                      currentTarget = _points.Last();
                   else
-                      currentTarget = _pointA;
+                      currentTarget = _points.First();
                   navMeshAgent.SetDestination(currentTarget);
               }
               

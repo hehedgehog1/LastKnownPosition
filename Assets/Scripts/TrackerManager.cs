@@ -42,8 +42,8 @@ namespace LastKnownPosition
                 .Standardise();
             var pointB = GetPointOnCircumference(pointBAngle, dogRing.Radius);
             scentRange.Points.Add(pointB);
-            
-            return new ScentRange(pointA, pointB);
+
+            return scentRange;
         }
 
         private float GetInnerSegmentAngle(float weightedRange)
