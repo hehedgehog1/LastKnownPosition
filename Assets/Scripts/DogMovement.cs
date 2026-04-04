@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using LastKnownPosition;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,8 @@ public class DogMovement : MonoBehaviour
     
     private Vector3 _pointA;
     private Vector3 _pointB;
+    
+    private IList<Vector3> _points;
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
@@ -84,11 +87,15 @@ public class DogMovement : MonoBehaviour
             return;
         }
         
-        float radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointA.x, 0f, player.position.z + scentRange.PointA.y));
-        _pointA = new Vector3(player.position.x + scentRange.PointA.x, radiusPointATerrainHeight, player.position.z + scentRange.PointA.y);
-        
-        float radiusPointBTerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointB.x, 0f, player.position.z + scentRange.PointB.y));
-        _pointB = new Vector3(player.position.x + scentRange.PointB.x, radiusPointBTerrainHeight, player.position.z + scentRange.PointB.y);
+        _pointA = ConvertPointToVector3(scentRange.PointA);
+        _pointB = ConvertPointToVector3(scentRange.PointB);
+    }
+
+
+    private Vector3 ConvertPointToVector3(Vector2 point)
+    {
+        var radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + point.x, 0f, player.position.z + point.y));
+        return new Vector3(player.position.x + point.x, radiusPointATerrainHeight, player.position.z + point.y);
     }
 
     void SyncAgentToTransform()
