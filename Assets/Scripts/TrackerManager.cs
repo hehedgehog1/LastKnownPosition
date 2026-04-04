@@ -26,8 +26,25 @@ namespace LastKnownPosition
                 .Standardise();
        
             var point2 = GetPointOnCircumference(point2Angle, dogRing.Radius);
+
+            var innerSegmentAngle = GetInnerSegmentAngle(weightedRange);
+            var innerSegmentAngleA = (point1Angle + innerSegmentAngle).Standardise();
+            var innerSegmentPointA = GetPointOnCircumference(innerSegmentAngleA, dogRing.Radius);
+            
+            var innerSegmentAngleB = (innerSegmentAngleA + innerSegmentAngle).Standardise();
+            var innerSegmentPointB = GetPointOnCircumference(innerSegmentAngleB, dogRing.Radius);
+            
             
             return new ScentRange(point1, point2);
+        }
+
+        private float GetInnerSegmentAngle(float weightedRange)
+        {
+            var fullWeightedRange = weightedRange * 2;
+
+            var segmentAngle = fullWeightedRange / 3;
+            
+            return segmentAngle;
         }
 
         private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
