@@ -1,5 +1,8 @@
 
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Helpers;
 using LastKnownPosition;
 using UnityEngine;
 using UnityEngine.AI;
@@ -22,14 +25,14 @@ public class DogMovement : MonoBehaviour
     private DogRing _dogRing;
     
     // Dog Searching in Radius
-    private float radiusSearchDuration = 20f; //time the dog will search for
+    private float radiusSearchDuration = 10f; //time the dog will search for
     
-    private Vector3 _pointA;
-    private Vector3 _pointB;
+    private IList<Vector3> _points;
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
-   
+
+    [SerializeField] private float maxDistanceFromPlayer;
    
    public enum DogState
    {
@@ -64,36 +67,55 @@ public class DogMovement : MonoBehaviour
             Debug.unityLogger.Log("Tracking Mode Starts");
             TrackScent();
 
-            if (_pointA != Vector3.zero)
+            if (_points is not null && _points.First() != Vector3.zero)
             {
                 UpdateBehaviour(DogState.GoToRadiusPoint);
             }
         }
+
+        if (IsTooFarFromPlayer())
+        {
+            UpdateBehaviour(DogState.FollowPlayer);
+        }
         
         SyncAgentToTransform();
-
     }
+
+    private bool IsTooFarFromPlayer() => Vector3.Distance(player.position, transform.position) > maxDistanceFromPlayer;
 
     void TrackScent()
     {
         var scentRange = _dogRing.TrackScent();
         if (scentRange is null)
         {
-            _pointA = Vector3.zero;
-            _pointB = Vector3.zero;
             return;
         }
         
-        float radiusPointATerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointA.x, 0f, player.position.z + scentRange.PointA.y));
-        _pointA = new Vector3(player.position.x + scentRange.PointA.x, radiusPointATerrainHeight, player.position.z + scentRange.PointA.y);
+        SetPoints(scentRange.Points);
+    }
+
+    private void SetPoints(IList<Vector2> vector2Points)
+    {
+        _points = new List<Vector3>();
+
+        foreach (var vector2Point in vector2Points)
+        {
+            _points.Add(ConvertPointToVector3(vector2Point));
+        }
+    }
+
+    private Vector3 ConvertPointToVector3(Vector2 point)
+    {
+        var radiusPointATerrainHeight =
+            Terrain.GetTerrainHeightAtPosition(
+                player.position.x + point.x, 
+                player.position.z + point.y);
         
-        float radiusPointBTerrainHeight = Terrain.SampleHeight(new Vector3(player.position.x + scentRange.PointB.x, 0f, player.position.z + scentRange.PointB.y));
-        _pointB = new Vector3(player.position.x + scentRange.PointB.x, radiusPointBTerrainHeight, player.position.z + scentRange.PointB.y);
+        return new Vector3(player.position.x + point.x, radiusPointATerrainHeight, player.position.z + point.y);
     }
 
     void SyncAgentToTransform()
         {
-           
             transform.position = navMeshAgent.nextPosition;
         }
 
@@ -118,8 +140,6 @@ public class DogMovement : MonoBehaviour
                     CurrentBehaviour = StartCoroutine(Tracking()); //tracking, dog moves between search points
                     break;
             }
-
-
         }
 
         IEnumerator FollowPlayer()
@@ -135,24 +155,19 @@ public class DogMovement : MonoBehaviour
                 }
                 transform.position =
                     Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); // smoothes motion
-              
 
                 yield return null;
                 navMeshAgent.nextPosition = transform.position;
-                
             }
-
         }
 
         IEnumerator MoveToPointA()
         {
-
             while (true)
             {
-               Vector3 midPoint =  (_pointA + _pointB)/2f; //midpoint between two tracking points
-                navMeshAgent.SetDestination(midPoint);
+                navMeshAgent.SetDestination(_points.First());
 
-              if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
+                if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
                 {
                     UpdateBehaviour(DogState.Tracking);
                 }
@@ -166,27 +181,41 @@ public class DogMovement : MonoBehaviour
             float elapsedTime = 0f;
             float searchDuration = radiusSearchDuration;
            navMeshAgent.updatePosition = true; 
-        
-          
+           
            navMeshAgent.autoBraking = false; //stops dog slowing down as it reaches desitnation
-           Vector3 currentTarget = _pointA;
-            while (searchDuration > elapsedTime)
-            {
-                
-              
+           Vector3 currentTarget;
+           var counter = 0;
+           var pointsAscending = true;
+           while (searchDuration > elapsedTime)
+           {
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
-                  if (currentTarget == _pointA) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
-                      currentTarget = _pointB;
+                  if (pointsAscending)
+                  {
+                      currentTarget = _points[++counter];
+                      navMeshAgent.SetDestination(currentTarget);
+                      
+                      if (counter == _points.Count - 1)
+                      {
+                          pointsAscending = false;
+                          continue;
+                      }
+                  }
                   else
-                      currentTarget = _pointA;
-                  navMeshAgent.SetDestination(currentTarget);
+                  {
+                      currentTarget = _points[--counter];
+                      navMeshAgent.SetDestination(currentTarget);
+                      
+                      if (counter == 0)
+                      {
+                          pointsAscending = true;
+                          continue;
+                      }
+                  }
               }
               
               yield return null;
               elapsedTime += Time.deltaTime; 
-             
-
             }
             
             if (searchDuration <= elapsedTime)
@@ -196,6 +225,5 @@ public class DogMovement : MonoBehaviour
             }
            
         }
-
     }
 

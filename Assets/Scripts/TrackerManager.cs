@@ -1,4 +1,5 @@
 ﻿using System;
+using Helpers;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = System.Random;
@@ -9,37 +10,59 @@ namespace LastKnownPosition
     {
         public ScentRange TrackScent(DogRing dogRing, ScentRing scentRing)
         {
+            var scentRange = new ScentRange();
+            
             var centerRadianAngle = GetRadianAngleOfCenterLine(dogRing, scentRing);
             var centerDegreeAngle = GetRadiansToDegrees(centerRadianAngle);
             
             var weightedRange = GetWeightedRange(scentRing.Weight);
             var weightedPercentage = GetWeightedPercentage(scentRing.WeightedPercentage);
             scentRing.WeightedPercentage = weightedPercentage;
+
+            var pointAAngle = (centerDegreeAngle - weightedRange * weightedPercentage)
+                .Standardise();
+            var pointA = GetPointOnCircumference(pointAAngle, dogRing.Radius);
+            scentRange.Points.Add(pointA);
             
-            var point1Angle = centerDegreeAngle - weightedRange * weightedPercentage;
-            if (point1Angle < 0f)
-            {
-                point1Angle = 360 + point1Angle;
-            }
-            var point1 = GetPointOnCircumference(point1Angle, dogRing.Radius);
             
-            var point2Angle = centerDegreeAngle + weightedRange * (1 - weightedPercentage);
-            if (point2Angle > 360)
-            {
-                point2Angle = point2Angle - 360;
-            }
-            var point2 = GetPointOnCircumference(point2Angle, dogRing.Radius);
+            //TODO: Refactor this into own method
+            //TODO: Strip out Static A B points
+
+            var innerSegmentAngle = GetInnerSegmentAngle(weightedRange);
+            var innerSegmentAngleA = (pointAAngle + innerSegmentAngle).Standardise();
+            var innerSegmentPointA = GetPointOnCircumference(innerSegmentAngleA, dogRing.Radius);
+            scentRange.Points.Add(innerSegmentPointA);
             
-            return new ScentRange(point1, point2);
+            var innerSegmentAngleB = (innerSegmentAngleA + innerSegmentAngle).Standardise();
+            var innerSegmentPointB = GetPointOnCircumference(innerSegmentAngleB, dogRing.Radius);
+            scentRange.Points.Add(innerSegmentPointB);
+            
+            
+            var pointBAngle = (centerDegreeAngle + weightedRange * (1 - weightedPercentage))
+                .Standardise();
+            var pointB = GetPointOnCircumference(pointBAngle, dogRing.Radius);
+            scentRange.Points.Add(pointB);
+
+            return scentRange;
+        }
+
+        private float GetInnerSegmentAngle(float weightedRange)
+        {
+            //TODO: this can be simplified
+            var fullWeightedRange = weightedRange;
+
+            var segmentAngle = fullWeightedRange / 3;
+            
+            return segmentAngle;
         }
 
         private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
         {
             var lengthC = GetLengthBetweenPoints(
-                dogRing.Center, 
+                new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z),
                 scentRing.Center);
             var lengthA = GetLengthBetweenPoints(
-                new Vector2(dogRing.Center.x, dogRing.Center.y + dogRing.Radius), 
+                new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z + dogRing.Radius), 
                 scentRing.Center);
             var lengthB = dogRing.Radius;
             
