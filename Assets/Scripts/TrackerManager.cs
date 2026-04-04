@@ -1,4 +1,5 @@
 ﻿using System;
+using Helpers;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = System.Random;
@@ -15,19 +16,15 @@ namespace LastKnownPosition
             var weightedRange = GetWeightedRange(scentRing.Weight);
             var weightedPercentage = GetWeightedPercentage(scentRing.WeightedPercentage);
             scentRing.WeightedPercentage = weightedPercentage;
+
+            var point1Angle = (centerDegreeAngle - weightedRange * weightedPercentage)
+                .Standardise();
             
-            var point1Angle = centerDegreeAngle - weightedRange * weightedPercentage;
-            if (point1Angle < 0f)
-            {
-                point1Angle = 360 + point1Angle;
-            }
             var point1 = GetPointOnCircumference(point1Angle, dogRing.Radius);
             
-            var point2Angle = centerDegreeAngle + weightedRange * (1 - weightedPercentage);
-            if (point2Angle > 360)
-            {
-                point2Angle = point2Angle - 360;
-            }
+            var point2Angle = (centerDegreeAngle + weightedRange * (1 - weightedPercentage))
+                .Standardise();
+       
             var point2 = GetPointOnCircumference(point2Angle, dogRing.Radius);
             
             return new ScentRange(point1, point2);
