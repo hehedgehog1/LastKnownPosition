@@ -73,7 +73,6 @@ public class DogMovement : MonoBehaviour
         }
         
         SyncAgentToTransform();
-
     }
 
     void TrackScent()
@@ -109,7 +108,6 @@ public class DogMovement : MonoBehaviour
 
     void SyncAgentToTransform()
         {
-           
             transform.position = navMeshAgent.nextPosition;
         }
 
@@ -134,8 +132,6 @@ public class DogMovement : MonoBehaviour
                     CurrentBehaviour = StartCoroutine(Tracking()); //tracking, dog moves between search points
                     break;
             }
-
-
         }
 
         IEnumerator FollowPlayer()
@@ -151,24 +147,19 @@ public class DogMovement : MonoBehaviour
                 }
                 transform.position =
                     Vector3.SmoothDamp(transform.position, navMeshAgent.nextPosition, ref velocity, 0.1f); // smoothes motion
-              
 
                 yield return null;
                 navMeshAgent.nextPosition = transform.position;
-                
             }
-
         }
 
         IEnumerator MoveToPointA()
         {
-
             while (true)
             {
-               Vector3 midPoint =  (_points.First() + _points.Last())/2f; //midpoint between two tracking points
-                navMeshAgent.SetDestination(midPoint);
+                navMeshAgent.SetDestination(_points.First());
 
-              if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
+                if (navMeshAgent.remainingDistance <= distanceToStartPoint) //once the dog reaches destination, it will start tracking by moving between two points
                 {
                     UpdateBehaviour(DogState.Tracking);
                 }
@@ -182,27 +173,41 @@ public class DogMovement : MonoBehaviour
             float elapsedTime = 0f;
             float searchDuration = radiusSearchDuration;
            navMeshAgent.updatePosition = true; 
-        
-          
+           
            navMeshAgent.autoBraking = false; //stops dog slowing down as it reaches desitnation
-           Vector3 currentTarget = _points.First();
-            while (searchDuration > elapsedTime)
-            {
-                
-              
+           Vector3 currentTarget;
+           var counter = 0;
+           var pointsAscending = true;
+           while (searchDuration > elapsedTime)
+           {
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
-                  if (currentTarget == _points.First()) //if the navMeshAgent has reached A, go to B/if the agent has reach B, go to A
-                      currentTarget = _points.Last();
+                  if (pointsAscending)
+                  {
+                      currentTarget = _points[++counter];
+                      navMeshAgent.SetDestination(currentTarget);
+                      
+                      if (counter == _points.Count - 1)
+                      {
+                          pointsAscending = false;
+                          continue;
+                      }
+                  }
                   else
-                      currentTarget = _points.First();
-                  navMeshAgent.SetDestination(currentTarget);
+                  {
+                      currentTarget = _points[--counter];
+                      navMeshAgent.SetDestination(currentTarget);
+                      
+                      if (counter == 0)
+                      {
+                          pointsAscending = true;
+                          continue;
+                      }
+                  }
               }
               
               yield return null;
               elapsedTime += Time.deltaTime; 
-             
-
             }
             
             if (searchDuration <= elapsedTime)
@@ -212,6 +217,5 @@ public class DogMovement : MonoBehaviour
             }
            
         }
-
     }
 
