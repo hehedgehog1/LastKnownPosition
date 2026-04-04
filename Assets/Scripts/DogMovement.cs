@@ -27,9 +27,6 @@ public class DogMovement : MonoBehaviour
     // Dog Searching in Radius
     private float radiusSearchDuration = 20f; //time the dog will search for
     
-    private Vector3 _pointA;
-    private Vector3 _pointB;
-    
     private IList<Vector3> _points;
 
     public Coroutine CurrentBehaviour;
@@ -84,19 +81,10 @@ public class DogMovement : MonoBehaviour
         var scentRange = _dogRing.TrackScent();
         if (scentRange is null)
         {
-            
-            //TODO: Delete
-            _pointA = Vector3.zero;
-            _pointB = Vector3.zero;
             return;
         }
         
         SetPoints(scentRange.Points);
-        
-        
-        //TODO: Delete
-        _pointA = ConvertPointToVector3(scentRange.PointA);
-        _pointB = ConvertPointToVector3(scentRange.PointB);
     }
 
     private void SetPoints(IList<Vector2> vector2Points)
