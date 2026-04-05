@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class FirstPersonPlayer : MonoBehaviour
@@ -21,6 +20,8 @@ public class FirstPersonPlayer : MonoBehaviour
     private Rigidbody rb;
     public float jumpForce;
     bool isGrounded;
+
+    public event EventHandler MissingPersonFound;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -95,6 +96,10 @@ public class FirstPersonPlayer : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("MissingPerson"))
+        {
+            MissingPersonFound?.Invoke(this, EventArgs.Empty);
+        }
     }
-    
 }

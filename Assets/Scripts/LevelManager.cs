@@ -1,3 +1,5 @@
+using System;
+using LastKnownPosition;
 using Models;
 using UnityEngine;
 
@@ -5,11 +7,27 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private string levelName;
     [SerializeField] private GameObject missingPersonSpawnerGameObject;
+    [SerializeField] private GameObject playerGameObject;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    [SerializeField] private float remainingTime;
+    
+    private FirstPersonPlayer _player;
+    private TimeManager _timeManager;
+    
     void Start()
     {
         SetupLevel();
+        
+        _timeManager = gameObject.GetComponent<TimeManager>();
+        
+        _player = playerGameObject.GetComponent<FirstPersonPlayer>();
+        _player.MissingPersonFound += OnMissingPersonFound;
+    }
+
+    void OnDestroy()
+    {
+        _player.MissingPersonFound -= OnMissingPersonFound;
     }
 
     private void SetupLevel()
@@ -25,5 +43,10 @@ public class LevelManager : MonoBehaviour
         
         var level = JsonUtility.FromJson<Level>(levelJson.text);
         missingPersonSpawner.SpawnMissingPerson(level.MissingPerson);
+    }
+    
+    private void OnMissingPersonFound(object sender, EventArgs e)
+    {
+        TimeManager.Pause();
     }
 }
