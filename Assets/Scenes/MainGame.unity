@@ -695,7 +695,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7
+  m_Speed: 12
   m_Acceleration: 100
   avoidancePriority: 50
   m_AngularSpeed: 300
@@ -875,7 +875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eab3f5e76bc82d498c19d20a3dc5890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
-  levelName: EasyTracking
+  levelName: Level3
   missingPersonSpawnerGameObject: {fileID: 712090072}
   playerGameObject: {fileID: 746635733}
 --- !u!4 &197840491
@@ -906,7 +906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   timerText: {fileID: 1658722568}
-  remainingTime: 60
+  remainingTime: 600
 --- !u!114 &197840493
 MonoBehaviour:
   m_ObjectHideFlags: 0
