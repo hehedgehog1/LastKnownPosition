@@ -1,0 +1,12 @@
+﻿{
+  "Steps": [
+    {
+      "Text": "Hi there! can you hear me?",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "",
+      "ContinueKey": 13
+    }
+  ]
+}
