@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class FirstPersonPlayer : MonoBehaviour
@@ -21,6 +20,8 @@ public class FirstPersonPlayer : MonoBehaviour
     private Rigidbody rb;
     public float jumpForce;
     bool isGrounded;
+
+    public event EventHandler MissingPersonFound;
     
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,21 +35,10 @@ public class FirstPersonPlayer : MonoBehaviour
 
     void Update()
     {
-       // rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * speed * Time.deltaTime);
-       
         CameraView();
         Jump();
         PlayerMovement();
 
-    }
-
-    void FixedUpdate()
-    {
-        rb.MovePosition(transform.position + transform.TransformDirection(movementDirection) * (speed * Time.fixedDeltaTime));
-        if(isGrounded && movementDirection.magnitude < 0.1f)
-        {
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
-        }
     }
 
     public void CameraView()
@@ -75,7 +65,7 @@ public class FirstPersonPlayer : MonoBehaviour
 
         movementDirection = transform.right * horizontal + transform.forward * vertical;
 
-        rb.MovePosition(rb.position + movementDirection * (speed * Time.fixedDeltaTime));
+        rb.MovePosition(rb.position + movementDirection * (speed * Time.deltaTime));
         
     }
 
@@ -95,6 +85,10 @@ public class FirstPersonPlayer : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("MissingPerson"))
+        {
+            MissingPersonFound?.Invoke(this, EventArgs.Empty);
+        }
     }
-    
 }
