@@ -856,6 +856,7 @@ GameObject:
   - component: {fileID: 197840490}
   - component: {fileID: 197840492}
   - component: {fileID: 197840493}
+  - component: {fileID: 197840494}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -878,6 +879,7 @@ MonoBehaviour:
   levelName: Level3
   missingPersonSpawnerGameObject: {fileID: 712090072}
   playerGameObject: {fileID: 746635733}
+  isTutorial: 0
 --- !u!4 &197840491
 Transform:
   m_ObjectHideFlags: 0
@@ -922,6 +924,18 @@ MonoBehaviour:
   gameOverPanel: {fileID: 821803217}
   levelCompletePanel: {fileID: 1579952990}
   hudPanel: {fileID: 1487543728}
+--- !u!114 &197840494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197840489}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b85a9713797697458a946116eb43fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialManager
 --- !u!4 &214386470 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2805340884947098987, guid: 669842ac42bd2b7458019f7dc5dd1269, type: 3}

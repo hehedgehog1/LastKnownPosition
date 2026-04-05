@@ -10,18 +10,24 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private string levelName;
     [SerializeField] private GameObject missingPersonSpawnerGameObject;
     [SerializeField] private GameObject playerGameObject;
+    [SerializeField] private bool isTutorial;
     
     private FirstPersonPlayer _player;
     private TimeManager _timeManager;
     private UIManager _uiManager;
+    private TutorialManager _tutorialManager;
     
     void Start()
     {
         SetupLevel();
         _timeManager = gameObject.GetComponent<TimeManager>();
         _timeManager.CountdownReached += OnCountdownReached;
+        
         _uiManager = gameObject.GetComponent<UIManager>();
         _uiManager.ResetHud();
+        
+        _tutorialManager = gameObject.GetComponent<TutorialManager>();
+        
         _player = playerGameObject.GetComponent<FirstPersonPlayer>();
         _player.MissingPersonFound += OnMissingPersonFound;
     }
@@ -29,6 +35,7 @@ public class LevelManager : MonoBehaviour
     void OnDestroy()
     {
         _player.MissingPersonFound -= OnMissingPersonFound;
+        _timeManager.CountdownReached -= OnCountdownReached;
     }
 
     private void SetupLevel()
@@ -42,6 +49,25 @@ public class LevelManager : MonoBehaviour
         }
         
         missingPersonSpawner.SpawnMissingPerson(level.MissingPerson);
+
+        if (level.IsTutorial)
+        {
+            SetupTutorial();
+        }
+    }
+
+    private void SetupTutorial()
+    {
+        var tutorial = JsonHelper.FromJson<Tutorial>("Tutorial");
+
+        if (tutorial is null)
+        {
+            isTutorial = false;
+            return;
+        }
+
+        _tutorialManager.enabled = true;
+        _tutorialManager.LoadTutorial(tutorial);
     }
 
     public void ResetLevel()
