@@ -37,6 +37,7 @@ public class TimeManager : MonoBehaviour
         {
             timerText.text = "0:00";
             _countdownHit = true;
+            CountdownReached?.Invoke(this, EventArgs.Empty);
             return;
         }
         
