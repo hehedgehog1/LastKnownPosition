@@ -606,8 +606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
   levelName: EasyTracking
   missingPersonSpawnerGameObject: {fileID: 712090072}
-  playerGameObject: {fileID: 0}
-  remainingTime: 0
+  playerGameObject: {fileID: 746635733}
 --- !u!4 &197840491
 Transform:
   m_ObjectHideFlags: 0

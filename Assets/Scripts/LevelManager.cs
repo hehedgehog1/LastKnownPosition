@@ -9,17 +9,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject missingPersonSpawnerGameObject;
     [SerializeField] private GameObject playerGameObject;
     
-    
-    [SerializeField] private float remainingTime;
-    
     private FirstPersonPlayer _player;
-    private TimeManager _timeManager;
     
     void Start()
     {
         SetupLevel();
-        
-        _timeManager = gameObject.GetComponent<TimeManager>();
         
         _player = playerGameObject.GetComponent<FirstPersonPlayer>();
         _player.MissingPersonFound += OnMissingPersonFound;
