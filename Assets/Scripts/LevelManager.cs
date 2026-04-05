@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using LastKnownPosition;
 using Models;
 using UnityEngine;
@@ -32,16 +33,14 @@ public class LevelManager : MonoBehaviour
 
     private void SetupLevel()
     {
-        var levelJson = Resources.Load<TextAsset>(levelName);
+        var level = JsonHelper.FromJson<Level>(levelName);
         var missingPersonSpawner = missingPersonSpawnerGameObject.GetComponent<MissingPersonSpawner>();
-
-        if (string.IsNullOrEmpty(levelJson.text))
+        if (level is null)
         {
             missingPersonSpawner.SpawnMissingPerson();
             return;
         }
         
-        var level = JsonUtility.FromJson<Level>(levelJson.text);
         missingPersonSpawner.SpawnMissingPerson(level.MissingPerson);
     }
 

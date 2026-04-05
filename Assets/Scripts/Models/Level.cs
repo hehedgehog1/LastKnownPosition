@@ -3,7 +3,7 @@
 namespace Models
 {
     [Serializable]
-    public struct Level
+    public class Level
     {
         public int Id;
 
