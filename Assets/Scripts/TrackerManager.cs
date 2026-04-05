@@ -145,6 +145,6 @@ namespace LastKnownPosition
             return new Vector2((float)pointX, (float)pointY * -1);
         }
         
-        private float GetWeightedRange(float weight) => Constants.BaseDirectionRange * weight;
+        private float GetWeightedRange(float weight) => Math.Min(Constants.BaseDirectionRange * weight, 180);
     }
 }

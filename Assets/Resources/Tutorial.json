@@ -1,0 +1,65 @@
+﻿{
+  "Steps": [
+    {
+      "Text": "Hi there! can you hear me?",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "Thanks for volunteering as a Search & Rescue Operator!",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "We're going to take you through a little training exercise here, okay?",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "Let's walk forward. Use the 'W' key to move forward",
+      "ContinueKey": 119
+    },
+    {
+      "Text": "Great! Now to move back, use the 'S' key",
+      "ContinueKey": 115
+    },
+    {
+      "Text": "Excellent, now to move left, use the 'A' key",
+      "ContinueKey": 97
+    },
+    {
+      "Text": "And finally, to move right, use the 'D' key",
+      "ContinueKey": 100
+    },
+    {
+      "Text": "Good job! Use the mouse to also move your view while exploring",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "Now, do you see your little furry friend beside you? He shall be your guide",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "He has a keen sense of smell, and will be able to help direct you towards our missing person if he picks up the scent!",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "If he detects something, he'll run out in front of you giving you a range of directions he thinks they might be in!",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "After that, it's up to you to pick a direction and start exploring. Keep using the dog to help hone in on our missing person!",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "If the dog smells nothing, then keep exploring until he picks something up",
+      "ContinueKey": 13
+    },
+    {
+      "Text": "Right, lets get searching! To tell the dog to search, press the 'T' key",
+      "ContinueKey": 116
+    },
+    {
+      "Text": "Excellent! He's picked up something. Time to get searching!",
+      "ContinueKey": 13
+    }
+    
+  ]
+}

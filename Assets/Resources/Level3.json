@@ -1,0 +1,41 @@
+﻿{
+  "Id": 1,
+  "MissingPerson": {
+    "Location": {
+      "X": 800,
+      "Z": 800
+    },
+    "Rings": [
+      {
+        "Id": 1,
+        "Radius": 100,
+        "Weight": 1
+      },
+      {
+        "Id": 2,
+        "Radius": 200,
+        "Weight": 2
+      },
+      {
+        "Id": 3,
+        "Radius": 300,
+        "Weight": 3
+      },
+      {
+        "Id": 4,
+        "Radius": 400,
+        "Weight": 4
+      },
+      {
+        "Id": 5,
+        "Radius": 500,
+        "Weight": 5
+      },
+      {
+        "Id": 6,
+        "Radius": 600,
+        "Weight": 6
+      }
+    ]
+  }
+}

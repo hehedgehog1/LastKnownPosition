@@ -3,9 +3,11 @@
 namespace Models
 {
     [Serializable]
-    public struct Level
+    public class Level
     {
         public int Id;
+
+        public bool IsTutorial;
 
         public MissingPerson MissingPerson;
 

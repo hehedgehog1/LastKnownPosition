@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -5,6 +6,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject levelCompletePanel;
     [SerializeField] private GameObject hudPanel;
+    [SerializeField] private GameObject tutorialPanel;
+    [SerializeField] private TextMeshProUGUI tutorialText;
 
     public void ResetHud()
     {
@@ -17,7 +20,6 @@ public class UIManager : MonoBehaviour
     public void GameOver()
     {
         Cursor.visible = true;
-        
         Cursor.lockState = CursorLockMode.None;
         gameOverPanel.SetActive(true);
         levelCompletePanel.SetActive(false);
@@ -31,5 +33,17 @@ public class UIManager : MonoBehaviour
         levelCompletePanel.SetActive(true);
         gameOverPanel.SetActive(false);
         hudPanel.SetActive(false);
+    }
+
+    public void SetTutorialStep(string text)
+    {
+        tutorialPanel.SetActive(true);
+        tutorialText.text = text;
+    }
+
+    public void DisableDialog()
+    {
+        tutorialText.text = string.Empty;
+        tutorialPanel.SetActive(false);
     }
 }
