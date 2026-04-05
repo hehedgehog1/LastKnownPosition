@@ -7,5 +7,7 @@ namespace Models
     {
         public string Text;
         public int ContinueKey;
+
+        public bool Completed;
     }
 }

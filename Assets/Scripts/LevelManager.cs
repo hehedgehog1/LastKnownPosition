@@ -1,6 +1,7 @@
 using System;
 using Helpers;
 using LastKnownPosition;
+using LastKnownPosition.Events;
 using Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,7 +20,6 @@ public class LevelManager : MonoBehaviour
     
     void Start()
     {
-        SetupLevel();
         _timeManager = gameObject.GetComponent<TimeManager>();
         _timeManager.CountdownReached += OnCountdownReached;
         
@@ -27,9 +27,17 @@ public class LevelManager : MonoBehaviour
         _uiManager.ResetHud();
         
         _tutorialManager = gameObject.GetComponent<TutorialManager>();
+        _tutorialManager.StepChanged += OnStepChanged;
         
         _player = playerGameObject.GetComponent<FirstPersonPlayer>();
         _player.MissingPersonFound += OnMissingPersonFound;
+        
+        SetupLevel();
+    }
+
+    private void OnStepChanged(object sender, OnStepChangedEventArgs e)
+    {
+        _uiManager.SetTutorialStep(e.Text);
     }
 
     void OnDestroy()
