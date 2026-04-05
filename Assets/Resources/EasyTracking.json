@@ -1,5 +1,6 @@
 ﻿{
   "Id": 1,
+  "IsTutorial": true,
   "MissingPerson": {
     "Location": {
       "X": 256,

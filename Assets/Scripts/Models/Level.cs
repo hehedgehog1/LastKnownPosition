@@ -7,6 +7,8 @@ namespace Models
     {
         public int Id;
 
+        public bool IsTutorial;
+
         public MissingPerson MissingPerson;
 
     }
