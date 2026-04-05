@@ -37,6 +37,7 @@ public class TutorialManager : MonoBehaviour
             if (IsLastStep())
             {
                 TutorialCompleted?.Invoke(this, EventArgs.Empty);
+                return;
             }
             
             ProgressStep();
@@ -44,12 +45,17 @@ public class TutorialManager : MonoBehaviour
 
         if (Input.GetKeyDown((KeyCode)_currentStep.ContinueKey))
         {
-            ProgressStep();
+            _currentStep.Completed = true;
         }
     }
 
     private void ProgressStep()
     {
+        if (IsLastStep())
+        {
+            return;
+        }
+
         _currentStepIndex++;
         _currentStep = _tutorial.Steps[_currentStepIndex];
         StepChanged?.Invoke(
@@ -60,7 +66,7 @@ public class TutorialManager : MonoBehaviour
             });
     }
 
-    private bool IsLastStep() => _currentStepIndex < _totalSteps;
+    private bool IsLastStep() => _currentStepIndex >= _totalSteps - 1;
 
     public void LoadTutorial(Tutorial tutorial)
     {

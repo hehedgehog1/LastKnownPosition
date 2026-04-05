@@ -28,11 +28,18 @@ public class LevelManager : MonoBehaviour
         
         _tutorialManager = gameObject.GetComponent<TutorialManager>();
         _tutorialManager.StepChanged += OnStepChanged;
+        _tutorialManager.TutorialCompleted += OnTutorialCompleted;
         
         _player = playerGameObject.GetComponent<FirstPersonPlayer>();
         _player.MissingPersonFound += OnMissingPersonFound;
         
         SetupLevel();
+    }
+
+    private void OnTutorialCompleted(object sender, EventArgs e)
+    {
+        _tutorialManager.enabled = false;
+        _uiManager.DisableDialog();
     }
 
     private void OnStepChanged(object sender, OnStepChangedEventArgs e)

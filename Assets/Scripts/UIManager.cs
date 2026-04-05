@@ -40,4 +40,10 @@ public class UIManager : MonoBehaviour
         tutorialPanel.SetActive(true);
         tutorialText.text = text;
     }
+
+    public void DisableDialog()
+    {
+        tutorialText.text = string.Empty;
+        tutorialPanel.SetActive(false);
+    }
 }
