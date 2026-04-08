@@ -15,8 +15,8 @@ public class DogMovement : MonoBehaviour
     
    //Dog Movement with player 
     public Transform player;
-    private float OffsetX = 2f; //dog distance from player in X when following
-    private float OffsetZ = 1.5f;//dog distance from player in Z when following
+    private float OffsetX = 2.5f; //dog distance from player in X when following
+    private float OffsetZ = 2f;//dog distance from player in Z when following
     private Vector3 velocity; 
     
     Vector3 lastTarget;
