@@ -31,7 +31,6 @@ public class FirstPersonPlayer : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // locks cursor to center of game view during play (hit esc to exit)
-       // rb=GetComponent<Rigidbody>(); 
         isGrounded=true;
         characterController = GetComponent<CharacterController>();
 
@@ -85,8 +84,6 @@ public class FirstPersonPlayer : MonoBehaviour
     }
 
    
-
-    
     private void OnControllerColliderHit (ControllerColliderHit hit)
     {
        
@@ -94,7 +91,6 @@ public class FirstPersonPlayer : MonoBehaviour
         if (hit.gameObject.CompareTag("MissingPerson"))
         {
             MissingPersonFound?.Invoke(this, EventArgs.Empty);
-            Debug.unityLogger.Log("missing person found");
         }
     }
 }
