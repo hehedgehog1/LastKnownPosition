@@ -926,6 +926,7 @@ MonoBehaviour:
   hudPanel: {fileID: 1487543728}
   tutorialPanel: {fileID: 907374074}
   tutorialText: {fileID: 907374076}
+  mapPanel: {fileID: 549084234}
 --- !u!114 &197840494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1772,7 +1773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &549084235
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1782,7 +1783,7 @@ RectTransform:
   m_GameObject: {fileID: 549084234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8.21, y: 8.21, z: 8.21}
+  m_LocalScale: {x: 8.14, y: 8.14, z: 8.14}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1147914408}
@@ -2809,7 +2810,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &899118442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2817,7 +2818,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899118441}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f9960ba0194c224780bcbaefa494f86, type: 3}
   m_Name: 
