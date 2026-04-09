@@ -8,6 +8,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject hudPanel;
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
+    [SerializeField] private GameObject mapPanel;
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleMap();
+        }
+    }
 
     public void ResetHud()
     {
@@ -45,5 +54,15 @@ public class UIManager : MonoBehaviour
     {
         tutorialText.text = string.Empty;
         tutorialPanel.SetActive(false);
+    }
+
+    public void ToggleMap()
+    {
+        bool isActive = mapPanel.activeSelf;
+        mapPanel.SetActive(!isActive);
+
+        Cursor.visible = !isActive;
+        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
+
     }
 }

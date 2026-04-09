@@ -25,8 +25,12 @@
       "ContinueKey": 97
     },
     {
-      "Text": "And finally, to move right, use the 'D' key",
+      "Text": "And to move right, use the 'D' key",
       "ContinueKey": 100
+    },
+    {
+      "Text": "Remember to open your map to find your bearings. Use the 'E' key to open your map",
+      "ContinueKey": 101
     },
     {
       "Text": "Good job! Use the mouse to also move your view while exploring",
