@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MapMarker : MonoBehaviour
@@ -13,7 +14,12 @@ public class MapMarker : MonoBehaviour
     void Update()
     {
         if (!mapRect.gameObject.activeSelf) return;
+        UpdatePlayerMarker();
+        
+    }
 
+    private void UpdatePlayerMarker()
+    {
         Vector3 playerPos = player.position;
 
         float x = (1 - (player.position.z / mapWorldSize.y)) * mapRect.rect.width;
