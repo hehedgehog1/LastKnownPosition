@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class MapMarker : MonoBehaviour
@@ -6,27 +5,32 @@ public class MapMarker : MonoBehaviour
     public RectTransform playerMarker;
     public Transform player;
     public RectTransform mapRect;
-    public Vector2 mapWorldSize;
-    public float offsetX = 5f;
-    public float offsetY = -3f;
 
+    public Vector2 mapWorldMin;
+    public Vector2 mapWorldMax;
 
-    void Update()
+    private float mapScale = 0.878f;
+
+    private void Update()
     {
         if (!mapRect.gameObject.activeSelf) return;
         UpdatePlayerMarker();
-        
     }
 
     private void UpdatePlayerMarker()
     {
-        Vector3 playerPos = player.position;
+        // Ignore elevation and move player to bottom of map
+        float u = 1f - Mathf.InverseLerp(mapWorldMin.y, mapWorldMax.y, player.position.z);
+        float v = Mathf.InverseLerp(mapWorldMin.x, mapWorldMax.x, player.position.x);
 
-        float x = (1 - (player.position.z / mapWorldSize.y)) * mapRect.rect.width;
-        float y = (player.position.x / mapWorldSize.x) * mapRect.rect.height;
+        // Padding to account for borders around map
+        float padding = (1f - mapScale) / 2f;
+        float mappedU = padding + u * mapScale;
+        float mappedV = padding + v * mapScale;
 
-        Vector2 offset = new Vector2(offsetX, offsetY); // tweak for map offset
-
-        playerMarker.anchoredPosition = new Vector2(x, y) + offset;
+        playerMarker.anchoredPosition = new Vector2(
+            mappedU * mapRect.rect.width,
+            mappedV * mapRect.rect.height
+        );
     }
 }

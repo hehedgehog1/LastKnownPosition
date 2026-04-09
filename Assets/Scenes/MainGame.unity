@@ -3499,6 +3499,7 @@ RectTransform:
   - {fileID: 821803218}
   - {fileID: 710013819}
   - {fileID: 549084235}
+  - {fileID: 1451639039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4064,9 +4065,8 @@ MonoBehaviour:
   playerMarker: {fileID: 1423174058}
   player: {fileID: 746635740}
   mapRect: {fileID: 549084235}
-  mapWorldSize: {x: 1000, y: 1000}
-  offsetX: 1.24
-  offsetY: 4.21
+  mapWorldMin: {x: 0, y: 0}
+  mapWorldMax: {x: 1000, y: 1000}
 --- !u!4 &1451639039
 Transform:
   m_ObjectHideFlags: 0
@@ -4075,12 +4075,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1451639037}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 735.75, y: 423.125, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 90, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1147914408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1486411377
 GameObject:
@@ -5926,4 +5926,3 @@ SceneRoots:
   - {fileID: 197840491}
   - {fileID: 1147914408}
   - {fileID: 184304520}
-  - {fileID: 1451639039}
