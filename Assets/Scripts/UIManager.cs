@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ToggleMap();
         }
