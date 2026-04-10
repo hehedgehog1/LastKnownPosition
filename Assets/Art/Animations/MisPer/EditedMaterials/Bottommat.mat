@@ -53,7 +53,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Smoothness: 0.086
+    - _Smoothness: 0.079
     m_Colors:
     - _BaseColor: {r: 0.16595936, g: 0.22515352, b: 0.5396226, a: 1}
     - _Color: {r: 0.16595933, g: 0.22515348, b: 0.5396226, a: 1}
