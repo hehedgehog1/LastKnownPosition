@@ -63,6 +63,7 @@ public class MissingPersonSpawner : MonoBehaviour
             }
             
             GenerateScentRing(
+                missingPerson.Rings[i].Id,
                 missingPerson.Rings[i].Location.X, 
                 missingPerson.Rings[i].Location.Z, 
                 missingPerson.Rings[i].Radius, 
@@ -95,14 +96,14 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void GenerateScentRings(GameObject missingPerson)
     {
-        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 50, 1);
-        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 80, 2);
-        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 10, 3);
-        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 200, 4);
-        GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 400, 5);
+        GenerateScentRing(1, missingPerson.transform.position.x, missingPerson.transform.position.z, 50, 1);
+        GenerateScentRing(2, missingPerson.transform.position.x, missingPerson.transform.position.z, 80, 2);
+        GenerateScentRing(3, missingPerson.transform.position.x, missingPerson.transform.position.z, 10, 3);
+        GenerateScentRing(4, missingPerson.transform.position.x, missingPerson.transform.position.z, 200, 4);
+        GenerateScentRing(5, missingPerson.transform.position.x, missingPerson.transform.position.z, 400, 5);
     }
 
-    void GenerateScentRing(float x, float z, float radius, int weight)
+    void GenerateScentRing(int id, float x, float z, float radius, int weight)
     {
         Vector3 position = new Vector3(x, Constants.RingOffset, z);
         
@@ -112,6 +113,7 @@ public class MissingPersonSpawner : MonoBehaviour
 
         var scentRingData = scentRing.GetComponent<ScentRing>();
         scentRingData.Initialize(
+            id,
             new Vector2(x, z),
             radius,
             weight);

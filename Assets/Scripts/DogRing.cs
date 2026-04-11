@@ -53,8 +53,8 @@ namespace LastKnownPosition
                 return null;
             }
 
-            var minRing = _collidingRings.Min(ring => ring.Weight);
-            var scentRing = _collidingRings.Single(ring => Mathf.Approximately(ring.Weight, minRing));
+            var minRing = _collidingRings.Min(ring => ring.Id);
+            var scentRing = _collidingRings.Single(ring => Mathf.Approximately(ring.Id, minRing));
             
             var scentRange = _trackerManager.TrackScent(this, scentRing);
             return scentRange;
