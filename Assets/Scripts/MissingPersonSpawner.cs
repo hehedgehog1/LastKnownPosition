@@ -95,7 +95,6 @@ public class MissingPersonSpawner : MonoBehaviour
 
     void GenerateScentRings(GameObject missingPerson)
     {
-        //TODO: Change this into being generated through JSON file or some other configuration, this is just hardcoded initially
         GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 50, 1);
         GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 80, 2);
         GenerateScentRing(missingPerson.transform.position.x, missingPerson.transform.position.z, 10, 3);
