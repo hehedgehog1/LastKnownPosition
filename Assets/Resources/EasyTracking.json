@@ -2,6 +2,13 @@
   "Id": 1,
   "IsTutorial": true,
   "MissingPerson": {
+    "Profile": {
+      "Name": "John Doe",
+      "Age": "21",
+      "LastSeen": "John was last seen walking in Lorem Ipsum forest.",
+      "MedicalConditions": "John has memory loss",
+      "PhysicalDescription": "Some bloke"
+    },
     "Location": {
       "X": 256,
       "Z": 370

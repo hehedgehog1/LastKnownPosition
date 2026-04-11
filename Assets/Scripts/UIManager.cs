@@ -1,3 +1,4 @@
+using Models;
 using TMPro;
 using UnityEngine;
 
@@ -9,12 +10,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject mapPanel;
+    [SerializeField] private GameObject misPerProfilePanel;
 
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             ToggleMap();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleMisPerProfile();
         }
     }
 
@@ -64,5 +71,16 @@ public class UIManager : MonoBehaviour
         Cursor.visible = !isActive;
         Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
 
+    }
+
+    public void SetMisPerProfile(Profile profile)
+    {
+        misPerProfilePanel.GetComponent<MisPerProfileHandler>().SetMisPerProfile(profile);
+    }
+
+    private void ToggleMisPerProfile()
+    {
+        var isActive = misPerProfilePanel.activeSelf;
+        misPerProfilePanel.SetActive(!isActive);
     }
 }
