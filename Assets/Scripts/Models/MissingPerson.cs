@@ -8,5 +8,6 @@ namespace Models
     {
         public Location Location;
         public List<Ring> Rings;
+        public Profile Profile;
     }
 }
