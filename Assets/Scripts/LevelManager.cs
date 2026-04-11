@@ -82,6 +82,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        playerGameObject.transform.GetChild(1).gameObject.SetActive(true);
         _tutorialManager.enabled = true;
         _tutorialManager.LoadTutorial(tutorial);
     }
