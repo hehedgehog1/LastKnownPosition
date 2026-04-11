@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour
     {
         _tutorialManager.enabled = false;
         _uiManager.DisableDialog();
+        playerGameObject.transform.GetChild(1).gameObject.SetActive(false);
     }
 
     private void OnStepChanged(object sender, OnStepChangedEventArgs e)
@@ -81,6 +82,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
+        playerGameObject.transform.GetChild(1).gameObject.SetActive(true);
         _tutorialManager.enabled = true;
         _tutorialManager.LoadTutorial(tutorial);
     }

@@ -27,7 +27,7 @@ public class DogMovement : MonoBehaviour
     // Dog Searching in Radius
     private float radiusSearchDuration = 10f; //time the dog will search for
     
-    private IList<Vector3> _points;
+    private IList<Vector3> _points = new List<Vector3>();
 
     public Coroutine CurrentBehaviour;
     private float distanceToStartPoint = 1f;
