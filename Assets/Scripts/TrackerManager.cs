@@ -12,8 +12,9 @@ namespace LastKnownPosition
         {
             var scentRange = new ScentRange();
             
-            var centerRadianAngle = GetRadianAngleOfCenterLine(dogRing, scentRing);
-            var centerDegreeAngle = GetRadiansToDegrees(centerRadianAngle);
+            var triangleThetaRadians = GetRadianAngleOfCenterLine(dogRing, scentRing);
+            var triangleThetaDegrees = GetRadiansToDegrees(triangleThetaRadians);
+            var centerDegreeAngle = CompensateForTriangleFlipping(dogRing, scentRing, triangleThetaDegrees);
             
             var weightedRange = GetWeightedRange(scentRing.Weight);
             var weightedPercentage = GetWeightedPercentage(scentRing.WeightedPercentage);
@@ -46,6 +47,16 @@ namespace LastKnownPosition
             return scentRange;
         }
 
+        private float CompensateForTriangleFlipping(DogRing dogRing, ScentRing scentRing, float angle)
+        {
+            if (dogRing.gameObject.transform.position.x > scentRing.gameObject.transform.position.x)
+            {
+                return 360 - angle;
+            }
+            
+            return angle;
+        }
+        
         private float GetInnerSegmentAngle(float weightedRange)
         {
             //TODO: this can be simplified
