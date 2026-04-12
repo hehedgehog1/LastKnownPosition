@@ -1,4 +1,5 @@
 using Helpers;
+using JetBrains.Annotations;
 using LastKnownPosition;
 using Models;
 using UnityEngine;
@@ -57,7 +58,7 @@ public class MissingPersonSpawner : MonoBehaviour
 
         for (int i = 0; i < missingPerson.Rings.Count; i++)
         {
-            if (missingPerson.Rings[i].Location.X is 0 && missingPerson.Rings[i].Location.Z is 0)
+            if (missingPerson.Rings[i].Location is null)
             {
                 missingPerson.Rings[i].Location = missingPerson.Location;
             }
@@ -67,7 +68,8 @@ public class MissingPersonSpawner : MonoBehaviour
                 missingPerson.Rings[i].Location.X, 
                 missingPerson.Rings[i].Location.Z, 
                 missingPerson.Rings[i].Radius, 
-                missingPerson.Rings[i].Weight);
+                missingPerson.Rings[i].Weight,
+                missingPerson.Rings[i].ChildLocation);
         }
     }
 
@@ -103,7 +105,7 @@ public class MissingPersonSpawner : MonoBehaviour
         GenerateScentRing(5, missingPerson.transform.position.x, missingPerson.transform.position.z, 400, 5);
     }
 
-    void GenerateScentRing(int id, float x, float z, float radius, int weight)
+    void GenerateScentRing(int id, float x, float z, float radius, int weight, [CanBeNull] Location childLocation = null)
     {
         Vector3 position = new Vector3(x, Constants.RingOffset, z);
         
@@ -116,6 +118,7 @@ public class MissingPersonSpawner : MonoBehaviour
             id,
             new Vector2(x, z),
             radius,
-            weight);
+            weight,
+            childLocation);
     }
 }

@@ -57,12 +57,14 @@ namespace LastKnownPosition
 
         private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
         {
+            var targetCenter = scentRing.ChildCenter ?? scentRing.Center;
+            
             var lengthC = GetLengthBetweenPoints(
                 new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z),
-                scentRing.Center);
+                targetCenter);
             var lengthA = GetLengthBetweenPoints(
                 new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z + dogRing.Radius), 
-                scentRing.Center);
+                targetCenter);
             var lengthB = dogRing.Radius;
             
             var radianAngle = GetCosineRule(lengthA, lengthB, lengthC);
