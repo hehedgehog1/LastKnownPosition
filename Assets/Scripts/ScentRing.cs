@@ -11,7 +11,7 @@ namespace LastKnownPosition
         public Vector2 Center { get; private set; }
         public float Weight { get; private set; }
         public float? WeightedPercentage { get; set; }
-        public Vector2? ChildCenter { get; private set; }
+        public Vector2 ChildCenter { get; private set; }
 
         public void Initialize(int id, Vector2 center, float radius, float weight, Location? childLocation = null)
         {

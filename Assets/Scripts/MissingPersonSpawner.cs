@@ -58,7 +58,7 @@ public class MissingPersonSpawner : MonoBehaviour
 
         for (int i = 0; i < missingPerson.Rings.Count; i++)
         {
-            if (missingPerson.Rings[i].Location is null)
+            if (missingPerson.Rings[i].Location.X is 0 && missingPerson.Rings[i].Location.Z is 0)
             {
                 missingPerson.Rings[i].Location = missingPerson.Location;
             }

@@ -57,7 +57,7 @@ namespace LastKnownPosition
 
         private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
         {
-            var targetCenter = scentRing.ChildCenter ?? scentRing.Center;
+            var targetCenter = scentRing.ChildCenter == default(Vector2) ? scentRing.Center : scentRing.ChildCenter;
             
             var lengthC = GetLengthBetweenPoints(
                 new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z),
