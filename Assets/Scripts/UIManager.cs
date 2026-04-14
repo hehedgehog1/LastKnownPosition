@@ -15,16 +15,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private FirstPersonPlayer firstPersonPlayer;
 
     public bool isNotesOpen;
+    public bool isMapOpen;
 
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && isNotesOpen == false)
         {
             ToggleMap();
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && isMapOpen == false)
         {
             ToggleNotes();
         }
@@ -70,6 +71,7 @@ public class UIManager : MonoBehaviour
 
     public void ToggleMap()
     {
+        isMapOpen = !isMapOpen;
         bool isActive = mapPanel.activeSelf;
         mapPanel.SetActive(!isActive);
     }
