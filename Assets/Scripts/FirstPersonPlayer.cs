@@ -25,7 +25,8 @@ public class FirstPersonPlayer : MonoBehaviour
     public float groundDistance;
 
     public event EventHandler MissingPersonFound;
-    
+    private bool canMove = true;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -39,8 +40,12 @@ public class FirstPersonPlayer : MonoBehaviour
     void Update()
     {
         CameraView();
-        PlayerMovement();
 
+        if (canMove)
+        {
+            PlayerMovement();
+        }
+     
     }
 
     public void CameraView()
@@ -82,8 +87,12 @@ public class FirstPersonPlayer : MonoBehaviour
       
         
     }
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+    }
 
-   
+
     private void OnControllerColliderHit (ControllerColliderHit hit)
     {
        
