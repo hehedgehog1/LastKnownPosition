@@ -33,6 +33,22 @@
       "ContinueKey": 101
     },
     {
+      "Text": "You can press 'E' again to close the map",
+      "ContinueKey": 101
+    },
+    {
+      "Text": "To view information about the missing person, use the 'Tab' key to open your notes.",
+      "ContinueKey": 9
+    },
+    {
+      "Text": "You can use 'D' to scroll through the different pages of the notes",
+      "ContinueKey": 100
+    },
+    {
+      "Text": "Close your notes with the 'Tab' key.",
+      "ContinueKey": 9
+    },
+    {
       "Text": "Good job! Use the mouse to also move your view while exploring",
       "ContinueKey": 13
     },
@@ -64,6 +80,5 @@
       "Text": "Excellent! He's picked up something. Time to get searching!",
       "ContinueKey": 13
     }
-    
   ]
 }

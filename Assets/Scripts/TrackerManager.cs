@@ -12,8 +12,9 @@ namespace LastKnownPosition
         {
             var scentRange = new ScentRange();
             
-            var centerRadianAngle = GetRadianAngleOfCenterLine(dogRing, scentRing);
-            var centerDegreeAngle = GetRadiansToDegrees(centerRadianAngle);
+            var triangleThetaRadians = GetRadianAngleOfCenterLine(dogRing, scentRing);
+            var triangleThetaDegrees = GetRadiansToDegrees(triangleThetaRadians);
+            var centerDegreeAngle = CompensateForTriangleFlipping(dogRing, scentRing, triangleThetaDegrees);
             
             var weightedRange = GetWeightedRange(scentRing.Weight);
             var weightedPercentage = GetWeightedPercentage(scentRing.WeightedPercentage);
@@ -23,10 +24,6 @@ namespace LastKnownPosition
                 .Standardise();
             var pointA = GetPointOnCircumference(pointAAngle, dogRing.Radius);
             scentRange.Points.Add(pointA);
-            
-            
-            //TODO: Refactor this into own method
-            //TODO: Strip out Static A B points
 
             var innerSegmentAngle = GetInnerSegmentAngle(weightedRange);
             var innerSegmentAngleA = (pointAAngle + innerSegmentAngle).Standardise();
@@ -46,24 +43,28 @@ namespace LastKnownPosition
             return scentRange;
         }
 
-        private float GetInnerSegmentAngle(float weightedRange)
+        private float CompensateForTriangleFlipping(DogRing dogRing, ScentRing scentRing, float angle)
         {
-            //TODO: this can be simplified
-            var fullWeightedRange = weightedRange;
-
-            var segmentAngle = fullWeightedRange / 3;
+            if (dogRing.gameObject.transform.position.x > scentRing.gameObject.transform.position.x)
+            {
+                return 360 - angle;
+            }
             
-            return segmentAngle;
+            return angle;
         }
+        
+        private float GetInnerSegmentAngle(float weightedRange) => weightedRange / 3;
 
         private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
         {
+            var targetCenter = scentRing.ChildCenter == default(Vector2) ? scentRing.Center : scentRing.ChildCenter;
+            
             var lengthC = GetLengthBetweenPoints(
                 new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z),
-                scentRing.Center);
+                targetCenter);
             var lengthA = GetLengthBetweenPoints(
                 new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z + dogRing.Radius), 
-                scentRing.Center);
+                targetCenter);
             var lengthB = dogRing.Radius;
             
             var radianAngle = GetCosineRule(lengthA, lengthB, lengthC);
@@ -109,15 +110,15 @@ namespace LastKnownPosition
             {
                 pointY -= distance;
             }
-            else if (deg == 90)
+            else if (Mathf.Approximately(deg, 90))
             {
                 pointX += distance;
             }
-            else if (deg == 180)
+            else if (Mathf.Approximately(deg, 180))
             {
                 pointY += distance;
             }
-            else if (deg == 270)
+            else if (Mathf.Approximately(deg, 270))
             {
                 pointX -= distance;
             }

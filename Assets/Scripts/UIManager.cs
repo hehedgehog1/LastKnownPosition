@@ -1,3 +1,4 @@
+using Models;
 using TMPro;
 using UnityEngine;
 
@@ -9,12 +10,24 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject mapPanel;
+    [SerializeField] private GameObject notesPanel;
+    [SerializeField] private NotesPanelController notesController;
+    [SerializeField] private FirstPersonPlayer firstPersonPlayer;
+
+    public bool isNotesOpen;
+    public bool isMapOpen;
+
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && isNotesOpen == false)
         {
             ToggleMap();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab) && isMapOpen == false)
+        {
+            ToggleNotes();
         }
     }
 
@@ -58,11 +71,19 @@ public class UIManager : MonoBehaviour
 
     public void ToggleMap()
     {
+        isMapOpen = !isMapOpen;
         bool isActive = mapPanel.activeSelf;
         mapPanel.SetActive(!isActive);
+    }
 
-        Cursor.visible = !isActive;
-        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
+    public void ToggleNotes()
+    {
+        Cursor.visible = false;
 
+        isNotesOpen = !isNotesOpen;
+        notesPanel.SetActive(isNotesOpen);
+
+        firstPersonPlayer.SetMovementEnabled(!isNotesOpen);
+        notesController.SetActive(isNotesOpen);
     }
 }
