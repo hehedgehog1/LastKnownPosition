@@ -33,6 +33,14 @@ public class DogMovement : MonoBehaviour
     private float distanceToStartPoint = 1f;
 
     [SerializeField] private float maxDistanceFromPlayer;
+    
+    // Dog Stamina
+
+    public bool staminaEmpty = false;
+    private float staminaCountdownTimer;
+    private float staminaCountdown = 10f;
+    private float numberOfTracks; // current number of tracks
+    private float allowedTracks = 2f; // set allowed tracks
    
    public enum DogState
    {
@@ -50,8 +58,10 @@ public class DogMovement : MonoBehaviour
       navMeshAgent.updatePosition=false; 
       UpdateBehaviour(DogState.FollowPlayer);
       
-     
       navMeshAgent.updateRotation = true;
+
+      numberOfTracks = 0;
+      staminaCountdownTimer = 0f;
     }
 
     void Start()
@@ -61,15 +71,39 @@ public class DogMovement : MonoBehaviour
 
     void Update()
     {
+        if (staminaCountdownTimer > 0f)
+        {
+            staminaCountdownTimer -= Time.deltaTime;
+           
+        }
+        else
+        {
+            numberOfTracks = 0; 
+            Debug.Log("Stamina Replenished");
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.unityLogger.Log("Tracking Mode Starts");
-            TrackScent();
-
-            if (_points is not null && _points.First() != Vector3.zero)
+            if (numberOfTracks < allowedTracks)
             {
-                UpdateBehaviour(DogState.GoToRadiusPoint);
+                if (numberOfTracks == 0)
+                {
+                    staminaCountdownTimer = staminaCountdown;
+                }
+                numberOfTracks++;
+                
+                Debug.Log("Tracking Mode Starts");
+                staminaCountdownTimer -= Time.deltaTime;
+                TrackScent();
+
+                if (_points is not null && _points.First() != Vector3.zero)
+                {
+                    UpdateBehaviour(DogState.GoToRadiusPoint);
+                }
+            }
+            else
+            {
+                Debug.Log("Stamina Empty");
             }
         }
 
