@@ -33,6 +33,10 @@
       "ContinueKey": 101
     },
     {
+      "Text": "To view information about the missing person, use the 'Tab' key to open your notes. You can use 'A' or 'D' to scroll through the different pages.",
+      "ContinueKey": 9
+    },
+    {
       "Text": "Good job! Use the mouse to also move your view while exploring",
       "ContinueKey": 13
     },
