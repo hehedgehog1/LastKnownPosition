@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour
 
     public void ToggleNotes()
     {
+        Cursor.visible = false;
+
         isNotesOpen = !isNotesOpen;
         notesPanel.SetActive(isNotesOpen);
 
