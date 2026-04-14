@@ -38,11 +38,10 @@ public class FirstPersonPlayer : MonoBehaviour
     }
 
     void Update()
-    {
-        CameraView();
-
+    {    
         if (canMove)
         {
+            CameraView();
             PlayerMovement();
         }
      
