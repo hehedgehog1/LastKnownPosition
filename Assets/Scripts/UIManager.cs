@@ -10,7 +10,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
     [SerializeField] private GameObject mapPanel;
-    [SerializeField] private GameObject misPerProfilePanel;
+    [SerializeField] private GameObject notesPanel;
+    [SerializeField] private NotesPanelController notesController;
+    [SerializeField] private FirstPersonPlayer firstPersonPlayer;
+
+    public bool isNotesOpen;
+
 
     public void Update()
     {
@@ -21,7 +26,7 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ToggleMisPerProfile();
+            ToggleNotes();
         }
     }
 
@@ -67,20 +72,14 @@ public class UIManager : MonoBehaviour
     {
         bool isActive = mapPanel.activeSelf;
         mapPanel.SetActive(!isActive);
-
-        Cursor.visible = !isActive;
-        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
-
     }
 
-    public void SetMisPerProfile(Profile profile)
+    public void ToggleNotes()
     {
-        misPerProfilePanel.GetComponent<MisPerProfileHandler>().SetMisPerProfile(profile);
-    }
+        isNotesOpen = !isNotesOpen;
+        notesPanel.SetActive(isNotesOpen);
 
-    private void ToggleMisPerProfile()
-    {
-        var isActive = misPerProfilePanel.activeSelf;
-        misPerProfilePanel.SetActive(!isActive);
+        firstPersonPlayer.SetMovementEnabled(!isNotesOpen);
+        notesController.SetActive(isNotesOpen);
     }
 }

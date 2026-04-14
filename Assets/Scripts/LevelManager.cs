@@ -70,8 +70,6 @@ public class LevelManager : MonoBehaviour
         {
             SetupTutorial();
         }
-        
-        _uiManager.SetMisPerProfile(level.MissingPerson.Profile);
     }
 
     private void SetupTutorial()
