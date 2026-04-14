@@ -20,12 +20,12 @@
         "Weight": 1
       },
       {
-        "Id": 1,
+        "Id": 2,
         "Radius": 400,
         "Weight": 2
       },
       {
-        "Id": 1,
+        "Id": 3,
         "Radius": 800,
         "Weight": 3
       }

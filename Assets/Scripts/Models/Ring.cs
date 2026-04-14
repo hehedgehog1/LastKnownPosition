@@ -9,5 +9,6 @@ namespace Models
         public float Radius;
         public int Weight;
         public Location? Location;
+        public Location? ChildLocation;
     }
 }

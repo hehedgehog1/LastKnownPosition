@@ -15,8 +15,8 @@ public class DogMovement : MonoBehaviour
     
    //Dog Movement with player 
     public Transform player;
-    private float OffsetX = 2.5f; //dog distance from player in X when following
-    private float OffsetZ = 2f;//dog distance from player in Z when following
+    private float OffsetX = 7f; //dog distance from player in X when following
+    private float OffsetZ = 7f;//dog distance from player in Z when following
     private Vector3 velocity; 
     
     Vector3 lastTarget;
@@ -33,6 +33,17 @@ public class DogMovement : MonoBehaviour
     private float distanceToStartPoint = 1f;
 
     [SerializeField] private float maxDistanceFromPlayer;
+    
+    // Dog Stamina
+    
+    private float staminaCountdownTimer;
+    private float staminaCountdown = 20f;
+    private float numberOfTracks; // current number of tracks
+    private float allowedTracks = 5f; // set allowed tracks
+    public float currentStamina;
+    private float staminaBarReductionRate=1f; 
+    
+    public StaminaBar staminaBar;
    
    public enum DogState
    {
@@ -41,36 +52,73 @@ public class DogMovement : MonoBehaviour
        Tracking
    }
 
-   public DogState MyState; 
+   public DogState MyState;
 
-  
-    private void Awake()
-    { 
-        navMeshAgent = GetComponent<NavMeshAgent>();
-      navMeshAgent.updatePosition=false; 
-      UpdateBehaviour(DogState.FollowPlayer);
-      
-     
-      navMeshAgent.updateRotation = true;
-    }
+
+   private void Awake()
+   {
+       navMeshAgent = GetComponent<NavMeshAgent>();
+       navMeshAgent.updatePosition = false;
+       UpdateBehaviour(DogState.FollowPlayer);
+
+       navMeshAgent.updateRotation = true;
+       
+       currentStamina = allowedTracks;
+       staminaBar.SetMaxStamina(allowedTracks);
+       staminaBar.SetStamina(currentStamina);
+       
+
+       numberOfTracks = 0;
+       staminaCountdownTimer = 0f;
+       
+
+   }
+
 
     void Start()
     {
         _dogRing = DogRing.GetComponent<DogRing>();
+       
     }
 
     void Update()
     {
+      
+        if (staminaCountdownTimer > 0f)
+        {
+            staminaCountdownTimer -= Time.deltaTime;
+           
+        }
+        else
+        {
+            numberOfTracks = 0; 
+            staminaBar.SetStamina(currentStamina);
+            currentStamina = allowedTracks;
+        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            Debug.unityLogger.Log("Tracking Mode Starts");
-            TrackScent();
-
-            if (_points is not null && _points.First() != Vector3.zero)
+            if (numberOfTracks < allowedTracks)
             {
-                UpdateBehaviour(DogState.GoToRadiusPoint);
+                if (numberOfTracks == 0)
+                {
+                    staminaCountdownTimer = staminaCountdown;
+                }
+                numberOfTracks++;
+                currentStamina -= staminaBarReductionRate;
+                staminaBar.SetStamina(currentStamina);
+
+                
+                Debug.Log("Tracking Mode Starts");
+             
+                TrackScent();
+
+                if (_points is not null && _points.First() != Vector3.zero)
+                {
+                    UpdateBehaviour(DogState.GoToRadiusPoint);
+                }
             }
+           
         }
 
         if (IsTooFarFromPlayer())
