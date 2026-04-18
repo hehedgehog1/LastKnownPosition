@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
 
     public void ToggleMap()
     {
+        SoundManager.Instance.PlayPageTurn();
         isMapOpen = !isMapOpen;
         bool isActive = mapPanel.activeSelf;
         mapPanel.SetActive(!isActive);
@@ -78,6 +79,7 @@ public class UIManager : MonoBehaviour
 
     public void ToggleNotes()
     {
+        SoundManager.Instance.PlayPageTurn();
         Cursor.visible = false;
 
         isNotesOpen = !isNotesOpen;

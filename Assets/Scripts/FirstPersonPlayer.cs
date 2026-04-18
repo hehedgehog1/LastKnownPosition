@@ -25,7 +25,7 @@ public class FirstPersonPlayer : MonoBehaviour
     public float groundDistance;
 
     public event EventHandler MissingPersonFound;
-    private bool canMove = true;
+    public bool canMove = true;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

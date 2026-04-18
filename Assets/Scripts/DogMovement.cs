@@ -110,7 +110,7 @@ public class DogMovement : MonoBehaviour
 
                 
                 Debug.Log("Tracking Mode Starts");
-             
+                
                 TrackScent();
 
                 if (_points is not null && _points.First() != Vector3.zero)
@@ -133,6 +133,8 @@ public class DogMovement : MonoBehaviour
 
     void TrackScent()
     {
+        SoundManager.Instance.PlayWhistle();
+        
         var scentRange = _dogRing.TrackScent();
         if (scentRange is null)
         {

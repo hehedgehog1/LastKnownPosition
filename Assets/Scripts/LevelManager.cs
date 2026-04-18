@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     private TimeManager _timeManager;
     private UIManager _uiManager;
     private TutorialManager _tutorialManager;
+    private SoundManager _soundManager;
     
     void Start()
     {
@@ -33,6 +34,8 @@ public class LevelManager : MonoBehaviour
         _player = playerGameObject.GetComponent<FirstPersonPlayer>();
         _player.MissingPersonFound += OnMissingPersonFound;
         
+        _soundManager = gameObject.GetComponent<SoundManager>();
+        
         SetupLevel();
     }
 
@@ -40,12 +43,13 @@ public class LevelManager : MonoBehaviour
     {
         _tutorialManager.enabled = false;
         _uiManager.DisableDialog();
-        playerGameObject.transform.GetChild(1).gameObject.SetActive(false);
+        playerGameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private void OnStepChanged(object sender, OnStepChangedEventArgs e)
     {
         _uiManager.SetTutorialStep(e.Text);
+        _soundManager.PlayRadio();
     }
 
     void OnDestroy()

@@ -25,6 +25,7 @@ public class NotesPanelController : MonoBehaviour
 
     void FlipPage()
     {
+        SoundManager.Instance.PlayPageTurn();
         showingPageA = !showingPageA;
 
         if (showingPageA)

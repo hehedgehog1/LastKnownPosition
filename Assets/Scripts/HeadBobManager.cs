@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class HeadBobManager : MonoBehaviour
 {
+    [SerializeField] private FirstPersonPlayer firstPersonPlayer;
+    
     [Range(0.001f, 0.1f)]
     public float Amount = 0.002f;
 
@@ -28,7 +30,7 @@ public class HeadBobManager : MonoBehaviour
     {
         var inputMagnitude = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).magnitude;
 
-        if (inputMagnitude > 0)
+        if (inputMagnitude > 0 && firstPersonPlayer.canMove)
         {
             StartHeadBob();
         }

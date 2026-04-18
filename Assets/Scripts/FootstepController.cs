@@ -35,7 +35,7 @@ public class FootstepController : MonoBehaviour
         {
             _isTriggered = true;
             var ran = new Random();
-            var audioNum = ran.Next(0, 9);
+            var audioNum = ran.Next(0, footsteps.Count - 1);
             _audioSource.clip = footsteps[audioNum];
             _audioSource.Play();
         }
