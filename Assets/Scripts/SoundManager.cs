@@ -5,6 +5,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip radio;
     [SerializeField] private AudioClip whistle;
+    [SerializeField] private AudioClip pageTurn;
     
     public static SoundManager Instance;
 
@@ -31,5 +32,10 @@ public class SoundManager : MonoBehaviour
     public void PlayWhistle()
     {
         audioSource.PlayOneShot(whistle);
+    }
+
+    public void PlayPageTurn()
+    {
+        audioSource.PlayOneShot(pageTurn);
     }
 }
