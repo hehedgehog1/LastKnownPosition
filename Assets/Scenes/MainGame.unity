@@ -1077,6 +1077,13 @@ MonoBehaviour:
   radio: {fileID: 8300000, guid: dce690c730f4aac489163f026ab427a5, type: 3}
   whistle: {fileID: 8300000, guid: 683c3d0eecd9c164982c5ce08d606f63, type: 3}
   pageTurn: {fileID: 8300000, guid: 173fcf39e51f9af4196db679c9cb479c, type: 3}
+  pageTurns:
+  - {fileID: 8300000, guid: 1af47a9f1f751fb45982fca2a96f6f3f, type: 3}
+  - {fileID: 8300000, guid: 92052a884dcef234abeab7211f1fb783, type: 3}
+  - {fileID: 8300000, guid: d6e7715e4b967cf4f860e3b8e56458af, type: 3}
+  - {fileID: 8300000, guid: f09c07584de74d042afb861d8005a5c0, type: 3}
+  - {fileID: 8300000, guid: b233628250cbbc44084cc3276d1fd915, type: 3}
+  - {fileID: 8300000, guid: 494ca480d71eb744e8bd7107cf996d7f, type: 3}
 --- !u!82 &197840496
 AudioSource:
   m_ObjectHideFlags: 0
