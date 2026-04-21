@@ -902,8 +902,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700eacd6ca294144bb7d1aa5c9501537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DogBarkController
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 1588836250}
+  pointB: {fileID: 2031056971}
   barkSound: {fileID: 182710833}
 --- !u!1 &184304517
 GameObject:
