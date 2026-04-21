@@ -1,4 +1,5 @@
 ﻿using System;
+using Helpers;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = System.Random;
@@ -7,33 +8,64 @@ namespace LastKnownPosition
 {
     public class TrackerManager
     {
-        public (Vector2, Vector2) TrackScent(PlayerRing playerRing, ScentRing scentRing)
+        public ScentRange TrackScent(DogRing dogRing, ScentRing scentRing)
         {
-            var centerRadianAngle = GetRadianAngleOfCenterLine(playerRing, scentRing);
-            var centerDegreeAngle = GetRadiansToDegrees(centerRadianAngle);
+            var scentRange = new ScentRange();
+            
+            var triangleThetaRadians = GetRadianAngleOfCenterLine(dogRing, scentRing);
+            var triangleThetaDegrees = GetRadiansToDegrees(triangleThetaRadians);
+            var centerDegreeAngle = CompensateForTriangleFlipping(dogRing, scentRing, triangleThetaDegrees);
             
             var weightedRange = GetWeightedRange(scentRing.Weight);
             var weightedPercentage = GetWeightedPercentage(scentRing.WeightedPercentage);
             scentRing.WeightedPercentage = weightedPercentage;
+
+            var pointAAngle = (centerDegreeAngle - weightedRange * weightedPercentage)
+                .Standardise();
+            var pointA = GetPointOnCircumference(pointAAngle, dogRing.Radius);
+            scentRange.Points.Add(pointA);
+
+            var innerSegmentAngle = GetInnerSegmentAngle(weightedRange);
+            var innerSegmentAngleA = (pointAAngle + innerSegmentAngle).Standardise();
+            var innerSegmentPointA = GetPointOnCircumference(innerSegmentAngleA, dogRing.Radius);
+            scentRange.Points.Add(innerSegmentPointA);
             
-            var point1Angle = centerDegreeAngle - weightedRange * weightedPercentage;
-            var point1 = GetPointOnCircumference(point1Angle, playerRing.Radius);
+            var innerSegmentAngleB = (innerSegmentAngleA + innerSegmentAngle).Standardise();
+            var innerSegmentPointB = GetPointOnCircumference(innerSegmentAngleB, dogRing.Radius);
+            scentRange.Points.Add(innerSegmentPointB);
             
-            var point2Angle = centerDegreeAngle + weightedRange * (1 - weightedPercentage);
-            var point2 = GetPointOnCircumference(point2Angle, playerRing.Radius);
             
-            return (point1, point2);
+            var pointBAngle = (centerDegreeAngle + weightedRange * (1 - weightedPercentage))
+                .Standardise();
+            var pointB = GetPointOnCircumference(pointBAngle, dogRing.Radius);
+            scentRange.Points.Add(pointB);
+
+            return scentRange;
         }
 
-        private float GetRadianAngleOfCenterLine(PlayerRing playerRing, ScentRing scentRing)
+        private float CompensateForTriangleFlipping(DogRing dogRing, ScentRing scentRing, float angle)
         {
+            if (dogRing.gameObject.transform.position.x > scentRing.gameObject.transform.position.x)
+            {
+                return 360 - angle;
+            }
+            
+            return angle;
+        }
+        
+        private float GetInnerSegmentAngle(float weightedRange) => weightedRange / 3;
+
+        private float GetRadianAngleOfCenterLine(DogRing dogRing, ScentRing scentRing)
+        {
+            var targetCenter = scentRing.ChildCenter == default(Vector2) ? scentRing.Center : scentRing.ChildCenter;
+            
             var lengthC = GetLengthBetweenPoints(
-                playerRing.Center, 
-                scentRing.Center);
+                new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z),
+                targetCenter);
             var lengthA = GetLengthBetweenPoints(
-                new Vector2(playerRing.Center.x, playerRing.Center.y + playerRing.Radius), 
-                scentRing.Center);
-            var lengthB = playerRing.Radius;
+                new Vector2(dogRing.gameObject.transform.position.x, dogRing.gameObject.transform.position.z + dogRing.Radius), 
+                targetCenter);
+            var lengthB = dogRing.Radius;
             
             var radianAngle = GetCosineRule(lengthA, lengthB, lengthC);
             return radianAngle;
@@ -78,15 +110,15 @@ namespace LastKnownPosition
             {
                 pointY -= distance;
             }
-            else if (deg == 90)
+            else if (Mathf.Approximately(deg, 90))
             {
                 pointX += distance;
             }
-            else if (deg == 180)
+            else if (Mathf.Approximately(deg, 180))
             {
                 pointY += distance;
             }
-            else if (deg == 270)
+            else if (Mathf.Approximately(deg, 270))
             {
                 pointX -= distance;
             }
@@ -114,6 +146,6 @@ namespace LastKnownPosition
             return new Vector2((float)pointX, (float)pointY * -1);
         }
         
-        private float GetWeightedRange(float weight) => Constants.BaseDirectionRange * weight;
+        private float GetWeightedRange(float weight) => Math.Min(Constants.BaseDirectionRange * weight, 180);
     }
 }

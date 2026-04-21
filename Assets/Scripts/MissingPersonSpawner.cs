@@ -1,3 +1,7 @@
+using Helpers;
+using JetBrains.Annotations;
+using LastKnownPosition;
+using Models;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,6 +10,7 @@ public class MissingPersonSpawner : MonoBehaviour
     [Header("Prefabs")]
     public Terrain terrain;
     public GameObject missingPersonPrefab;
+    public GameObject scentRingPrefab;
 
     [Header("Spawn Bounds")]
     public float minX = 153f;
@@ -16,14 +21,8 @@ public class MissingPersonSpawner : MonoBehaviour
     [Header("Settings")]
     public int maxAttempts = 25;
     public bool showSpawnRectangle = true;
-
-
-    void Start()
-    {
-        SpawnMissingPerson();
-    }
-
-    void SpawnMissingPerson()
+    
+    public void SpawnMissingPerson()
     {
         for (int i = 0; i < maxAttempts; i++)
         {
@@ -31,7 +30,7 @@ public class MissingPersonSpawner : MonoBehaviour
             float randomZ = Random.Range(minZ, maxZ);
 
             // Get terrain height at the point generated
-            float terrainY = terrain.SampleHeight(new Vector3(randomX, 0f, randomZ));
+            float terrainY = terrain.GetTerrainHeightAtPosition(randomX, randomZ);
 
             Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
 
@@ -39,12 +38,39 @@ public class MissingPersonSpawner : MonoBehaviour
 
             if (NavMesh.SamplePosition(candidate, out hit, 2f, NavMesh.AllAreas))
             {
-                Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
+                var missingPerson = Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
+                
+                GenerateScentRings(missingPerson);
+                
                 return;
             }
         }
 
         Debug.LogWarning("Failed to find valid NavMesh position.");
+    }
+
+    public void SpawnMissingPerson(MissingPerson missingPerson)
+    {
+        var location = missingPerson.Location;
+        var terrainY = terrain.GetTerrainHeightAtPosition(location.X, location.Z);
+        var locationVector = new Vector3(location.X, terrainY, location.Z);
+        Instantiate(missingPersonPrefab, locationVector, Quaternion.identity);
+
+        for (int i = 0; i < missingPerson.Rings.Count; i++)
+        {
+            if (missingPerson.Rings[i].Location.X is 0 && missingPerson.Rings[i].Location.Z is 0)
+            {
+                missingPerson.Rings[i].Location = missingPerson.Location;
+            }
+            
+            GenerateScentRing(
+                missingPerson.Rings[i].Id,
+                missingPerson.Rings[i].Location.X, 
+                missingPerson.Rings[i].Location.Z, 
+                missingPerson.Rings[i].Radius, 
+                missingPerson.Rings[i].Weight,
+                missingPerson.Rings[i].ChildLocation);
+        }
     }
 
     void OnDrawGizmos()
@@ -59,7 +85,7 @@ public class MissingPersonSpawner : MonoBehaviour
         Vector3 topLeft = new Vector3(minX, 0f, maxZ);
         Vector3 topRight = new Vector3(maxX, 0f, maxZ);
 
-        // Lift slightly so it’s visible above terrain
+        // Lift slightly so itï¿½s visible above terrain
         float yOffset = 200f;
 
         bottomLeft.y = bottomRight.y = topLeft.y = topRight.y = yOffset;
@@ -68,5 +94,31 @@ public class MissingPersonSpawner : MonoBehaviour
         Gizmos.DrawLine(bottomRight, topRight);
         Gizmos.DrawLine(topRight, topLeft);
         Gizmos.DrawLine(topLeft, bottomLeft);
+    }
+
+    void GenerateScentRings(GameObject missingPerson)
+    {
+        GenerateScentRing(1, missingPerson.transform.position.x, missingPerson.transform.position.z, 50, 1);
+        GenerateScentRing(2, missingPerson.transform.position.x, missingPerson.transform.position.z, 80, 2);
+        GenerateScentRing(3, missingPerson.transform.position.x, missingPerson.transform.position.z, 10, 3);
+        GenerateScentRing(4, missingPerson.transform.position.x, missingPerson.transform.position.z, 200, 4);
+        GenerateScentRing(5, missingPerson.transform.position.x, missingPerson.transform.position.z, 400, 5);
+    }
+
+    void GenerateScentRing(int id, float x, float z, float radius, int weight, [CanBeNull] Location childLocation = null)
+    {
+        Vector3 position = new Vector3(x, Constants.RingOffset, z);
+        
+        var scentRing = Instantiate(scentRingPrefab, position, Quaternion.identity);
+
+        scentRing.transform.localScale = new Vector3(radius*2, 0, radius*2);
+
+        var scentRingData = scentRing.GetComponent<ScentRing>();
+        scentRingData.Initialize(
+            id,
+            new Vector2(x, z),
+            radius,
+            weight,
+            childLocation);
     }
 }

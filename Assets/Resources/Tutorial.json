@@ -1,0 +1,84 @@
+﻿{
+  "Steps": [
+    {
+      "Text": "Hi there! can you hear me?",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "Thanks for volunteering as a Search & Rescue Operator!",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "We're going to take you through a little training exercise here, okay?",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "Let's walk forward. Use the 'W' key to move forward",
+      "ContinueKey": 119
+    },
+    {
+      "Text": "Great! Now to move back, use the 'S' key",
+      "ContinueKey": 115
+    },
+    {
+      "Text": "Excellent, now to move left, use the 'A' key",
+      "ContinueKey": 97
+    },
+    {
+      "Text": "And to move right, use the 'D' key",
+      "ContinueKey": 100
+    },
+    {
+      "Text": "Remember to open your map to find your bearings. Use the 'E' key to open your map",
+      "ContinueKey": 101
+    },
+    {
+      "Text": "You can press 'E' again to close the map",
+      "ContinueKey": 101
+    },
+    {
+      "Text": "To view information about the missing person, use the 'Tab' key to open your notes.",
+      "ContinueKey": 9
+    },
+    {
+      "Text": "You can use 'D' to scroll through the different pages of the notes",
+      "ContinueKey": 100
+    },
+    {
+      "Text": "Close your notes with the 'Tab' key.",
+      "ContinueKey": 9
+    },
+    {
+      "Text": "Good job! Use the mouse to also move your view while exploring",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "Now, do you see your little furry friend beside you? He shall be your guide",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "He has a keen sense of smell, and will be able to help direct you towards our missing person if he picks up the scent!",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "If he detects something, he'll run out in front of you giving you a range of directions he thinks they might be in!",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "After that, it's up to you to pick a direction and start exploring. Keep using the dog to help hone in on our missing person!",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "If the dog smells nothing, then keep exploring until he picks something up",
+      "ContinueKey": 323
+    },
+    {
+      "Text": "Right, lets get searching! To tell the dog to search, press the 'T' key",
+      "ContinueKey": 116
+    },
+    {
+      "Text": "Excellent! He's picked up something. Time to get searching!",
+      "ContinueKey": 323
+    }
+  ]
+}

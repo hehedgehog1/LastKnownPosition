@@ -16,3 +16,5 @@ https://assetstore.unity.com/packages/3d/vegetation/foliage-pack-free-66155
 https://assetstore.unity.com/packages/vfx/shaders/lux-instant-vegetation-286644
 
 https://assetstore.unity.com/packages/3d/environments/landscapes/stylized-low-poly-rocks-271334
+
+https://assetstore.unity.com/packages/3d/props/electronics/toontastic-electronic-devices-309712
