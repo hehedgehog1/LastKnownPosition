@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.11143467, g: 0.4917259, b: 0.5320754, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -827,6 +827,8 @@ MonoBehaviour:
   player: {fileID: 746635740}
   DogRing: {fileID: 1438160999}
   maxDistanceFromPlayer: 20
+  currentStamina: 0
+  staminaBar: {fileID: 0}
   MyState: 0
 --- !u!195 &182710832
 NavMeshAgent:
@@ -1070,6 +1072,11 @@ MonoBehaviour:
   tutorialPanel: {fileID: 907374074}
   tutorialText: {fileID: 907374076}
   mapPanel: {fileID: 549084234}
+  notesPanel: {fileID: 0}
+  notesController: {fileID: 0}
+  firstPersonPlayer: {fileID: 0}
+  isNotesOpen: 0
+  isMapOpen: 0
 --- !u!114 &197840494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3297,6 +3304,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundDistance: 0.4
+  canMove: 1
 --- !u!136 &746635737
 CapsuleCollider:
   m_ObjectHideFlags: 0
