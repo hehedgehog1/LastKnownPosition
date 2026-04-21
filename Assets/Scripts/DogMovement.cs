@@ -37,9 +37,9 @@ public class DogMovement : MonoBehaviour
     // Dog Stamina
     
     private float staminaCountdownTimer;
-    private float staminaCountdown = 20f;
+    private float staminaCountdown = 30f;
     private float numberOfTracks; // current number of tracks
-    private float allowedTracks = 5f; // set allowed tracks
+    private float allowedTracks = 1f; // set allowed tracks
     public float currentStamina;
     private float staminaBarReductionRate=1f; 
     
@@ -87,11 +87,14 @@ public class DogMovement : MonoBehaviour
         if (staminaCountdownTimer > 0f)
         {
             staminaCountdownTimer -= Time.deltaTime;
+            staminaBar.SetStamina(1 - (staminaCountdownTimer/staminaCountdown));
+            
            
         }
         else
         {
-            numberOfTracks = 0; 
+            numberOfTracks = 0;
+            
             staminaBar.SetStamina(currentStamina);
             currentStamina = allowedTracks;
         }
