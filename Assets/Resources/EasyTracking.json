@@ -1,6 +1,6 @@
 ﻿{
   "Id": 1,
-  "IsTutorial": true,
+  "IsTutorial": false,
   "MissingPerson": {
     "Profile": {
       "Name": "John Doe",
@@ -22,12 +22,12 @@
       {
         "Id": 2,
         "Radius": 400,
-        "Weight": 2
+        "Weight": 5
       },
       {
         "Id": 3,
         "Radius": 800,
-        "Weight": 3
+        "Weight": 10
       }
     ]
   }
