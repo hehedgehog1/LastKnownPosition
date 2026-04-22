@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject levelCompletePanel;
+    [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject hudPanel;
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private TextMeshProUGUI tutorialText;
@@ -16,6 +17,7 @@ public class UIManager : MonoBehaviour
 
     public bool isNotesOpen;
     public bool isMapOpen;
+    public bool isPaused;
 
 
     public void Update()
@@ -87,5 +89,45 @@ public class UIManager : MonoBehaviour
 
         firstPersonPlayer.SetMovementEnabled(!isNotesOpen);
         notesController.SetActive(isNotesOpen);
+    }
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            pausePanel.SetActive(true);
+            hudPanel.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            pausePanel.SetActive(false);
+            hudPanel.SetActive(true);
+        }
+    }
+
+        public void ResumeGame()
+    {
+        TogglePause();
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex
+        );
+    }
+
+    public void QuitToMenu()
+    {
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenuAine");
     }
 }
