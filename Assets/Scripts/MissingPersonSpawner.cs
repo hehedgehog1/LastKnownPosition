@@ -18,37 +18,31 @@ public class MissingPersonSpawner : MonoBehaviour
     public float minZ = 156f;
     public float maxZ = 768f;
 
+    public GameObject [] misPerLocations;
+    private int missingPerSelector;
+
     [Header("Settings")]
     public int maxAttempts = 25;
     public bool showSpawnRectangle = true;
     
-    public void SpawnMissingPerson()
+    
+   public void SpawnMissingPerson()
     {
-        for (int i = 0; i < maxAttempts; i++)
-        {
-            float randomX = Random.Range(minX, maxX);
-            float randomZ = Random.Range(minZ, maxZ);
-
-            // Get terrain height at the point generated
-            float terrainY = terrain.GetTerrainHeightAtPosition(randomX, randomZ);
-
-            Vector3 candidate = new Vector3(randomX, terrainY, randomZ);
-
-            NavMeshHit hit;
-
-            if (NavMesh.SamplePosition(candidate, out hit, 2f, NavMesh.AllAreas))
-            {
-                var missingPerson = Instantiate(missingPersonPrefab, hit.position, Quaternion.identity);
-                
-                GenerateScentRings(missingPerson);
-                
-                return;
-            }
-        }
-
-        Debug.LogWarning("Failed to find valid NavMesh position.");
+        missingPerSelector = Random.Range(0,(misPerLocations.Length - 1));
+          GameObject selectedLocationGameObject = misPerLocations[missingPerSelector];
+          Vector3 selectedLocation = selectedLocationGameObject.transform.position;
+          
+          var terrainY = terrain.GetTerrainHeightAtPosition(selectedLocation.x, selectedLocation.z);
+          var locationVector = new Vector3(selectedLocation.x, terrainY, selectedLocation.z);
+          Instantiate(missingPersonPrefab, locationVector, Quaternion.identity);
+          Debug.Log("Spawned at" + selectedLocationGameObject);
+          GenerateScentRing(1, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 50, 1);
+          GenerateScentRing(2, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 80, 2);
+          GenerateScentRing(3, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 10, 3);
+          GenerateScentRing(4, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 200, 4);
+          GenerateScentRing(5, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 400, 5);
     }
-
+ 
     public void SpawnMissingPerson(MissingPerson missingPerson)
     {
         var location = missingPerson.Location;
