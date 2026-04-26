@@ -36,6 +36,11 @@ public class MissingPersonSpawner : MonoBehaviour
           var locationVector = new Vector3(selectedLocation.x, terrainY, selectedLocation.z);
           Instantiate(missingPersonPrefab, locationVector, Quaternion.identity);
           Debug.Log("Spawned at" + selectedLocationGameObject);
+          GenerateScentRing(1, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 50, 1);
+          GenerateScentRing(2, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 80, 2);
+          GenerateScentRing(3, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 10, 3);
+          GenerateScentRing(4, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 200, 4);
+          GenerateScentRing(5, selectedLocationGameObject.transform.position.x, selectedLocationGameObject.transform.position.z, 400, 5);
     }
  
     public void SpawnMissingPerson(MissingPerson missingPerson)
