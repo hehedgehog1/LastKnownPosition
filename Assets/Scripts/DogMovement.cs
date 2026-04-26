@@ -116,9 +116,13 @@ public class DogMovement : MonoBehaviour
                 
                 TrackScent();
 
-                if (_points is not null && _points.First() != Vector3.zero)
+                if (_points is not null && _points.Count > 0 && _points.First() != Vector3.zero)
                 {
                     UpdateBehaviour(DogState.GoToRadiusPoint);
+                }
+                else
+                {
+                    SoundManager.Instance.PlayWhine();
                 }
             }
            

@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip radio;
     [SerializeField] private AudioClip whistle;
     [SerializeField] private AudioClip dogBark;
+    [SerializeField] private AudioClip dogWhine;
     [SerializeField] private AudioClip[] pageTurns;
     
     public static SoundManager Instance;
@@ -47,5 +48,10 @@ public class SoundManager : MonoBehaviour
     public void PlayBark()
     {
         audioSource.PlayOneShot(dogBark);
+    }
+
+    public void PlayWhine()
+    {
+        audioSource.PlayOneShot(dogWhine);
     }
 }
