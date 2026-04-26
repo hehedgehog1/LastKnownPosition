@@ -947,21 +947,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &182710834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 182710830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700eacd6ca294144bb7d1aa5c9501537, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DogBarkController
-  pointA: {fileID: 1588836250}
-  pointB: {fileID: 2031056971}
-  barkSound: {fileID: 182710833}
 --- !u!1 &184304517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1148,6 +1133,7 @@ MonoBehaviour:
   audioSource: {fileID: 197840496}
   radio: {fileID: 8300000, guid: dce690c730f4aac489163f026ab427a5, type: 3}
   whistle: {fileID: 8300000, guid: 683c3d0eecd9c164982c5ce08d606f63, type: 3}
+  dogBark: {fileID: 8300000, guid: bb06de320a9a3bf40a8b6f11edc86238, type: 3}
   pageTurns:
   - {fileID: 8300000, guid: 1af47a9f1f751fb45982fca2a96f6f3f, type: 3}
   - {fileID: 8300000, guid: 92052a884dcef234abeab7211f1fb783, type: 3}
@@ -2855,9 +2841,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4479835276772473951, guid: 19b1779ab58dad4499cc1632fdead0c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 182710831}
-    - targetCorrespondingSourceObject: {fileID: 4479835276772473951, guid: 19b1779ab58dad4499cc1632fdead0c8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 182710834}
     - targetCorrespondingSourceObject: {fileID: 4479835276772473951, guid: 19b1779ab58dad4499cc1632fdead0c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 182710833}
