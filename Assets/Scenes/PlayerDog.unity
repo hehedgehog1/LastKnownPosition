@@ -155,6 +155,8 @@ MonoBehaviour:
   radiusPointB: {fileID: 2104339393}
   playerCenter: {fileID: 728350551}
   searchTime: 20
+  startTime: 0
+  speed: 1
 --- !u!65 &43386090
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -423,7 +425,13 @@ MonoBehaviour:
   ySensitivity: 1500
   cameraTransform: {fileID: 52425940}
   speed: 15
-  jumpForce: 5
+  groundCheck: {fileID: 1143402072}
+  gravity: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundDistance: 0
+  canMove: 1
 --- !u!54 &728350547
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -609,9 +617,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0951170b8b0745f7a9f2573f7abf44e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Terrain: {fileID: 0}
   player: {fileID: 728350551}
-  radiusPointA: {fileID: 2111271968}
-  radiusPointB: {fileID: 2104339393}
+  DogRing: {fileID: 0}
+  maxDistanceFromPlayer: 0
+  currentStamina: 0
+  staminaBar: {fileID: 0}
   MyState: 0
 --- !u!195 &975771806
 NavMeshAgent:
