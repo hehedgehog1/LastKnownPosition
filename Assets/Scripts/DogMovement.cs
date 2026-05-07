@@ -116,9 +116,13 @@ public class DogMovement : MonoBehaviour
                 
                 TrackScent();
 
-                if (_points is not null && _points.First() != Vector3.zero)
+                if (_points is not null && _points.Count > 0 && _points.First() != Vector3.zero)
                 {
                     UpdateBehaviour(DogState.GoToRadiusPoint);
+                }
+                else
+                {
+                    SoundManager.Instance.PlayWhine();
                 }
             }
            
@@ -243,6 +247,7 @@ public class DogMovement : MonoBehaviour
            {
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
+                  SoundManager.Instance.PlayBark();
                   if (pointsAscending)
                   {
                       currentTarget = _points[++counter];

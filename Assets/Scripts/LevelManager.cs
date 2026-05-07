@@ -68,7 +68,8 @@ public class LevelManager : MonoBehaviour
             return;
         }
         
-        missingPersonSpawner.SpawnMissingPerson(level.MissingPerson);
+       missingPersonSpawner.SpawnMissingPerson();
+     
 
         if (level.IsTutorial)
         {

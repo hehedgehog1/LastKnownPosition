@@ -19,27 +19,17 @@ namespace LastKnownPosition
         
         public float Radius { get; } = 7.5f;
         public Vector2 Center { get; }
-        
-        // public GameObject LeftLine;
-        // private LineRenderer _leftLineRenderer;
-        //
-        // public GameObject RightLine;
-        // private LineRenderer _rightLineRenderer;
 
         public DogRing()
         {
             Center = new Vector2(0, 0);
         }
     
-        // Start is called before the first frame update
         void Start()
         {
             _trackerManager = new TrackerManager();
-            // _leftLineRenderer = LeftLine.GetComponent<LineRenderer>();
-            // _rightLineRenderer = RightLine.GetComponent<LineRenderer>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             var pos = new Vector3(Player.position.x, Constants.RingOffset, Player.position.z);

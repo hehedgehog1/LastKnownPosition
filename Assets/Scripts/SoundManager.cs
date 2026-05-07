@@ -1,11 +1,14 @@
 using UnityEngine;
+using Random = System.Random;
 
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip radio;
     [SerializeField] private AudioClip whistle;
-    [SerializeField] private AudioClip pageTurn;
+    [SerializeField] private AudioClip dogBark;
+    [SerializeField] private AudioClip dogWhine;
+    [SerializeField] private AudioClip[] pageTurns;
     
     public static SoundManager Instance;
 
@@ -36,6 +39,19 @@ public class SoundManager : MonoBehaviour
 
     public void PlayPageTurn()
     {
+        var rand = new Random();
+        var pos = rand.Next(0, pageTurns.Length);
+        var pageTurn = pageTurns[pos];
         audioSource.PlayOneShot(pageTurn);
+    }
+
+    public void PlayBark()
+    {
+        audioSource.PlayOneShot(dogBark);
+    }
+
+    public void PlayWhine()
+    {
+        audioSource.PlayOneShot(dogWhine);
     }
 }
