@@ -11,6 +11,7 @@ public class DogMovement : MonoBehaviour
 {
     private NavMeshAgent navMeshAgent;
     private Vector3 dogPosition;
+    private Animator animator;
     public Terrain Terrain; 
     
    //Dog Movement with player 
@@ -58,6 +59,8 @@ public class DogMovement : MonoBehaviour
    private void Awake()
    {
        navMeshAgent = GetComponent<NavMeshAgent>();
+       animator = GetComponent<Animator>();
+
        navMeshAgent.updatePosition = false;
        UpdateBehaviour(DogState.FollowPlayer);
 
@@ -66,12 +69,9 @@ public class DogMovement : MonoBehaviour
        currentStamina = allowedTracks;
        staminaBar.SetMaxStamina(allowedTracks);
        staminaBar.SetStamina(currentStamina);
-       
 
        numberOfTracks = 0;
        staminaCountdownTimer = 0f;
-       
-
    }
 
 
@@ -132,7 +132,18 @@ public class DogMovement : MonoBehaviour
         {
             UpdateBehaviour(DogState.FollowPlayer);
         }
-        
+
+        float currentSpeed = navMeshAgent.desiredVelocity.magnitude;
+
+        if (currentSpeed > 1f)
+        {
+            animator.SetFloat("Speed", 1f);
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+        }
+
         SyncAgentToTransform();
     }
 
