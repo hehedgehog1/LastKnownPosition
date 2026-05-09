@@ -1081,7 +1081,7 @@ MonoBehaviour:
   levelName: EasyTracking
   missingPersonSpawnerGameObject: {fileID: 13397250}
   playerGameObject: {fileID: 746635733}
-  isTutorial: 0
+  isTutorial: 1
 --- !u!4 &197840491
 Transform:
   m_ObjectHideFlags: 0
@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TimeManager
   timerText: {fileID: 1658722568}
-  remainingTime: 600
+  remainingTime: 300
 --- !u!114 &197840493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1162,7 +1162,9 @@ MonoBehaviour:
   audioSource: {fileID: 197840496}
   radio: {fileID: 8300000, guid: dce690c730f4aac489163f026ab427a5, type: 3}
   whistle: {fileID: 8300000, guid: 683c3d0eecd9c164982c5ce08d606f63, type: 3}
-  dogBark: {fileID: 8300000, guid: bb06de320a9a3bf40a8b6f11edc86238, type: 3}
+  dogBarks:
+  - {fileID: 8300000, guid: 5ea78b950c25b4840a7f7e362e5f9690, type: 3}
+  - {fileID: 8300000, guid: ed5f3c15ec601d54983494fc9d9ed836, type: 3}
   dogWhine: {fileID: 8300000, guid: b822871e582f50a4fb0260000028d7e1, type: 3}
   pageTurns:
   - {fileID: 8300000, guid: 1af47a9f1f751fb45982fca2a96f6f3f, type: 3}
