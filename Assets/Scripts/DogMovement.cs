@@ -220,6 +220,7 @@ public class DogMovement : MonoBehaviour
 
         IEnumerator MoveToPointA()
         {
+            SoundManager.Instance.PlayBark();
             while (true)
             {
                 navMeshAgent.SetDestination(_points.First());
@@ -247,7 +248,6 @@ public class DogMovement : MonoBehaviour
            {
               if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) //if the path is not pending (finished calculating path) and the navMeshAgent is within the stopping distance of the destinations
               {
-                  SoundManager.Instance.PlayBark();
                   if (pointsAscending)
                   {
                       currentTarget = _points[++counter];
