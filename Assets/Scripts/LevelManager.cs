@@ -94,7 +94,7 @@ public class LevelManager : MonoBehaviour
 
     public void ResetLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(0);
         _uiManager.ResetHud();
         TimeManager.Resume();
     }
