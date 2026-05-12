@@ -23,8 +23,10 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        
-        DontDestroyOnLoad(gameObject);
+    }
+    
+    void OnDestroy() {
+        if (Instance == this) Instance = null;
     }
     
     public void PlayRadio()

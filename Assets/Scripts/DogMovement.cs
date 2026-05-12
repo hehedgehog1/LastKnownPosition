@@ -38,7 +38,7 @@ public class DogMovement : MonoBehaviour
     // Dog Stamina
     
     private float staminaCountdownTimer;
-    private float staminaCountdown = 30f;
+    private float staminaCountdown = 18f;
     private float numberOfTracks; // current number of tracks
     private float allowedTracks = 1f; // set allowed tracks
     public float currentStamina;
