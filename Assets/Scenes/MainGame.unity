@@ -3828,8 +3828,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03679d5f48728475fb6422c6899f54ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xSensitivity: 1000
-  ySensitivity: 1000
+  xSensitivity: 500
+  ySensitivity: 500
   cameraTransform: {fileID: 385088563}
   speed: 12
   groundCheck: {fileID: 406598092}
